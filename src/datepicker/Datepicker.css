@@ -1,0 +1,83 @@
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--bs-body-color);
+    appearance: none;
+    background-color: var(--bs-body-bg);
+    background-clip: padding-box;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+
+.mydaypickerwrapper {
+    height: 200px;
+    width: 300px;
+    border: 1px solid black;
+}
+
+.mydatepickergrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border: 1px solid black;
+    text-align: center;
+}
+
+.grey {
+    color: lightgrey;
+}
+
+.redlabel {
+    color: red;
+}
+.activedatebadge {
+color: #212529;
+  
+display: inline-block;
+   /*  padding: .25em 0em; */
+
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+    border: 1px solid #ff0606;
+    margin: 3px 9px 2px 9px;
+}
+.topdivdp {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 5px;
+}
+.chevronsdp {
+    width: 30px;
+    height: 30px;
+    
+    cursor: pointer;
+}
+.chevrondpleft{
+    text-align: left;
+}
+.chevrondpright {
+    text-align: right;
+}
+
+.monthnamedp {
+    font-weight: bold;
+}
+.dpdatebox {
+    
+}
+.dpdatebox:hover {
+    background-color: lightgrey;
+    cursor: pointer;
+
+}
