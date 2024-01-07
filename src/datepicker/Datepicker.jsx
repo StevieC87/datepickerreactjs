@@ -10,6 +10,8 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     const Datepicker = React.forwardRef((props,ref) => {
         const {dateprop, onDateChange, closedialogCallback} = props;
        
+
+        const [selecteddate, setSelecteddate] = useState('');
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     const[datepropstate, setDatepropState] = useState(dateprop);
     //STATES RELATED TO DATE PROP
@@ -42,7 +44,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         let getmonthnumberV;
         let getdayofweekV;
         let getdaynameV;
-        let dateprop
+        let dateprop;
         let datetouse;
       if(datepropstate) {
         console.log('datepropstate', datepropstate)
@@ -77,7 +79,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         setYearfromdate(yearfromdate1);
         setMonthnumber(getmonthnumberV);
         setDayofweek(getdayofweekV);
-    }, [datepropstate])
+    }, [selecteddate, datepropstate])
 
     useEffect(() => {
         console.log('month OR YEAR for display CHANGED', monthfordisplay, yearfordisplay)
@@ -191,6 +193,8 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     //. CHANGE DATE ON CLICK CALLBACK
     const changeDateCallback = (newdate) => {
         onDateChange(newdate);
+        setSelecteddate(newdate);
+        
         console.log(newdate, 'newdate in changeDateCallback')
     }   
 
@@ -236,7 +240,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                 } }
                     
                     
-                className={`dpdatebox ${day.monthname !== monthname ? 'grey' : ''} ${dateprop === day.datetxt ? 'activedatebadge' : ''}`}
+                className={`dpdatebox ${day.monthname !== monthname ? 'grey' : ''} ${datepropstate === day.datetxt ? 'activedatebadge' : ''}`}
                 
                 data-date={day.datetxt} data-monthname={day.monthname} data-monthnumber={day.monthnumber} data-dayname={day.dayname} data-dayofweek={day.dayofweek} data-dayofweeknumber={day.dayofweeknumber} data-year={day.year} data-day={day.day} data-month={day.month}
                 >
