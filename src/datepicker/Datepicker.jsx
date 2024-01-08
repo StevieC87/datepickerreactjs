@@ -29,8 +29,8 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     const[dayname, setDayname] = useState('');
     const [allweeksdates, setAllweeksdates] = useState([]);
 
-    const[monthfordisplay, setMonthfordisplay] = useState('');
-    const[yearfordisplay, setYearfordisplay] = useState(''); //not sure about this
+    const[monthfordisplay, setMonthfordisplay] = useState(0);
+    const[yearfordisplay, setYearfordisplay] = useState(0); //not sure about this
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     //if no date: get todays MONTH only
     //if date: use that date
@@ -69,8 +69,13 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         monthfromdate1 = datetouse.slice(5, 7); //e.g. 07d
         yearfromdate1 = datetouse.slice(0, 4); // e.g. 2024
 
-        setMonthfordisplay(monthfromdate1);
-        setYearfordisplay(yearfromdate1);
+        let monthtonumber = parseInt(monthfromdate1);
+        console.log(monthtonumber, 'monthtonumber')
+        let yeartonumber = parseInt(yearfromdate1);
+        console.log(yeartonumber, 'yeartonumber')
+
+        setMonthfordisplay(monthtonumber);
+        setYearfordisplay(yeartonumber);
         getmonthnumberV = getmonthnumber(datetouse); //  e.g. 12
         getdayofweekV = getdayofweek(datetouse); //e.g. 1
         getdaynameV = getdayname(getdayofweekV); //e.g. monday
@@ -93,11 +98,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         console.log(daysinmonth1V, 'daysinmonth');
         setDaysinmonth(daysinmonth1V);      
       
-       
-       
-      
-            //use today's date 
-      
+        
         //. BUILD WEEKS AND DATES ETC FOR DISPLAY
             //first get array of weeks in month
             let testweeks = getWeeksInMonth(monthfordisplay, yearfordisplay);
@@ -138,13 +139,15 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
 
     const[testrandom, setTestrandom] = useState('');
     //. CHEVRONS CHANGE MONTH
-    const changemonth = (currentmonthnum, previousnext) => {
+    const changemonth = (currentmonthnum, previousnext, yearfordisplay22) => {
         console.log('changing month')
+        console.log(typeof yearfordisplay22,'yearfordisplay22 typeof')
         //IN NORMAL MONTHS e.g 12 -> december, not js yet
         let cmonth = currentmonthnum;
         console.log(cmonth, 'cmonth')
         //convert to number
-        let cmonthnumber = parseInt(cmonth);
+       // let cmonthnumber = parseInt(cmonth);
+       let cmonthnumber = cmonth;
         //we get a number of the month A STRING - not js based (12 is december)
         
         //SO FIRST WE SHOULD SHIFT IT BACK TO JS MONTH 
@@ -153,20 +156,23 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
       let cmonthnumberinjs = cmonthnumber;
         console.log(cmonthnumberinjs, 'cmonthnumberinjsFORNOWNOTTRUE')
         let newmonth; 
-
-        let yearfromdate2 = parseInt(yearfromdate);
+      
         //WRONG 
         //ADD A MONTH WITH JS 
         //MAKE A DATE FROM THAT MONTH
         if(previousnext === 'previous') {
             console.log('going to previous month')
-            if(cmonthnumberinjs == 1) {
-                newmonth = 12;
-                setYearfordisplay(yearfromdate2 - 1);
-                console.log('december of previous year')
+            if(cmonthnumberinjs === 1) {
+                newmonth = 12; 
+                let newyear1 = yearfordisplay22 - 1;
+                setMonthfordisplay(newmonth);
+                setYearfordisplay(newyear1);
+                console.log(newyear1, 'newyear1')
+                console.log(typeof newyear1, 'newyear1 typeof')
             }
             else {
-                newmonth = cmonthnumberinjs - 1;
+                 newmonth  = cmonthnumberinjs - 1;
+                 setMonthfordisplay(newmonth);
             }
           
         }
@@ -174,17 +180,26 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
             console.log('going to next month')
             if(cmonthnumberinjs === 12) {
                 newmonth = 1;
-                setYearfordisplay(yearfromdate2 + 1);
+                let newyear1 = yearfordisplay22 + 1;
+                console.log(newyear1, 'newyear1')
+                console.log(typeof newyear1, 'newyear1 typeof')
+                setYearfordisplay(newyear1);
+                setMonthfordisplay(newmonth); 
+
             }
             else {
-                newmonth = cmonthnumberinjs + 1;
+                console.log('next, not 12')
+                 newmonth = cmonthnumberinjs + 1;
+                 console.log(newmonth,'newmonth')
+                 setMonthfordisplay(newmonth);
             }
           
         }  
-        console.log(newmonth, 'newmonthwwww')
+ 
 
 
-        setMonthfordisplay(newmonth);
+       
+       
       
        
         //make date from that month
@@ -224,7 +239,8 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     return (
             <div className="mydaypickerwrapper"   ref={ref}  >
                 <div className="topdivdp">
-                    <div className="chevronsdp chevrondpleft" onClick={() => changemonth(monthfordisplay, 'previous')}>
+              
+                    <div className="chevronsdp chevrondpleft" onClick={() => changemonth(monthfordisplay, 'previous', yearfordisplay)}>
                         <i className="bi bi-chevron-left"></i>
                     </div>
                     <div className="monthnamedp">
@@ -232,7 +248,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                         <span>  </span>  {  yearfordisplay } 
                     </div>
                     
-                    <div className="chevronsdp chevrondpright" onClick={() => changemonth(monthfordisplay, 'next')}>
+                    <div className="chevronsdp chevrondpright" onClick={() => changemonth(monthfordisplay, 'next', yearfordisplay)}>
                     <i className="bi bi-chevron-right"></i>
                 </div>
 

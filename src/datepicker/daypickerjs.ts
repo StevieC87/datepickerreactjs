@@ -6,7 +6,7 @@ export function getmonthnumber(date: string): string {
     return month;
 }
 
-export function getmonthname(month: string, year: string): string {
+export function getmonthname(month: number, year: number): string {
   //  console.log(date, 'date in getmonthname')
  //   let month = date.slice(5, 7);
   //  let year = date.slice(0, 4);
