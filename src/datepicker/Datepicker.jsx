@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 
-
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, getWeeksInMonth, makearrayofdatesfromWeek} from './daypickerjs';
 
 
@@ -11,7 +11,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         const {dateprop, onDateChange, closedialogCallback} = props;
        
 
-        const [selecteddate, setSelecteddate] = useState('');
+    const[selecteddate2, setSelecteddate2] = useState('');
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     const[datepropstate, setDatepropState] = useState(dateprop);
     //STATES RELATED TO DATE PROP
@@ -35,6 +35,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     //if no date: get todays MONTH only
     //if date: use that date
     //IF I WANT IT BLANK WHEN IT OPENS - ideally
+  
         
     //; =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     //. ON TODAYS DATE CHANGE -> 
@@ -79,7 +80,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         setYearfromdate(yearfromdate1);
         setMonthnumber(getmonthnumberV);
         setDayofweek(getdayofweekV);
-    }, [selecteddate, datepropstate])
+    }, [selecteddate2, datepropstate])
 
     useEffect(() => {
         console.log('month OR YEAR for display CHANGED', monthfordisplay, yearfordisplay)
@@ -129,8 +130,13 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
 
         
     //. -----------------------------------------------------------
+    useEffect(() => {
+        
+        console.log('selecteddate2 changed', selecteddate2)
 
+    }, [selecteddate2])
 
+    const[testrandom, setTestrandom] = useState('');
     //. CHEVRONS CHANGE MONTH
     const changemonth = (currentmonthnum, previousnext) => {
         console.log('changing month')
@@ -189,54 +195,65 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
 
 
     }
-
+    const changedateLocal = (newdate) => {
+        console.log(newdate, 'newdate in changedateLocal')
+        console.log(typeof newdate, 'newdate in changedateLocal')
+        let dateparam = new Date(newdate);
+        console.log(dateparam, 'dateparam')
+        setSelecteddate2(newdate);
+        setTestrandom(newdate);
+      
+        
+    }
     //. CHANGE DATE ON CLICK CALLBACK
     const changeDateCallback = (newdate) => {
         onDateChange(newdate);
-        setSelecteddate(newdate);
-        
+      
         console.log(newdate, 'newdate in changeDateCallback')
     }   
 
     const closedialogCallback2 = (newstate) => {
         closedialogCallback(newstate);
+      
     }
 
     // dispatch(setDateFordaypicker(todaydate));
 
+  
     //| -----------------------------------------------------------
     return (
             <div className="mydaypickerwrapper"   ref={ref}  >
                 <div className="topdivdp">
-                <div className="chevronsdp chevrondpleft" onClick={() => changemonth(monthfordisplay, 'previous')}>
-                    <i className="bi bi-chevron-left"></i>
-                </div>
-                <div className="monthnamedp">
-                    { monthname } 
-                    <span>  </span>  {  yearfordisplay } 
-                </div>
-                
-                <div className="chevronsdp chevrondpright" onClick={() => changemonth(monthfordisplay, 'next')}>
+                    <div className="chevronsdp chevrondpleft" onClick={() => changemonth(monthfordisplay, 'previous')}>
+                        <i className="bi bi-chevron-left"></i>
+                    </div>
+                    <div className="monthnamedp">
+                        { monthname } 
+                        <span>  </span>  {  yearfordisplay } 
+                    </div>
+                    
+                    <div className="chevronsdp chevrondpright" onClick={() => changemonth(monthfordisplay, 'next')}>
                     <i className="bi bi-chevron-right"></i>
                 </div>
 
             </div>
             
             <div className="mydatepickergrid">
-                <div className="dayofweek">Mo</div>
+                <div className="dayofweek">{ testrandom }</div>
                 <div className="dayofweek">Tue</div>
                 <div className="dayofweek">Wed</div>
                 <div className="dayofweek">Thu</div>
                 <div className="dayofweek">Fr</div>
                 <div className="dayofweek">Sat</div>
                 <div className="dayofweek">Sun</div>
-            
+
             { allweeksdates && allweeksdates.map((day, index) => (
                 <div 
                 key={index}
                 onClick={() => {
                     changeDateCallback(day.datetxt);
-                    closedialogCallback2(false); 
+                    closedialogCallback2(false);
+                    changedateLocal(day.datetxt); 
                 } }
                     
                     
@@ -245,6 +262,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                 data-date={day.datetxt} data-monthname={day.monthname} data-monthnumber={day.monthnumber} data-dayname={day.dayname} data-dayofweek={day.dayofweek} data-dayofweeknumber={day.dayofweeknumber} data-year={day.year} data-day={day.day} data-month={day.month}
                 >
                     {day.datetxt.split('-')[2]}
+                  
                     </div>
                 ))}
         
