@@ -1,8 +1,8 @@
 import React from 'react';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, getWeeksInMonth, makearrayofdatesfromWeek} from './daypickerjs';
+import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, getWeeksInMonth, makearrayofdatesfromWeek} from '../daypickerjs';
 
 
 //; ----------------------------------------------------------------------
@@ -10,19 +10,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     const Datepicker = React.forwardRef((props,ref) => {
         const {dateprop, onDateChange, closedialogCallback} = props;
        
-        const [isOpen, setIsOpen] = useState(false);
-        const[datepropDatepicker, setDatepropDatepicker] = useState('');
-        const[selecteddate, setSelecteddate] = useState('');
-        const dateinputref = useRef(); 
-        const dialogref = useRef();
 
-        
-        const testFunction = (e) => {
-            console.log('testFunction');
-            console.log(e.target.value);
-        // setSelecteddate(e.target.value);
-        }
-       
     const[selecteddate2, setSelecteddate2] = useState('');
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     const[datepropstate, setDatepropState] = useState(dateprop);
@@ -47,7 +35,6 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     //if no date: get todays MONTH only
     //if date: use that date
     //IF I WANT IT BLANK WHEN IT OPENS - ideally
- 
   
         
     //; =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -240,8 +227,8 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         console.log(newdate, 'newdate in changeDateCallback')
     }   
 
-    const closedialog = (newstate) => {
-        setIsOpen(newstate);
+    const closedialogCallback2 = (newstate) => {
+        closedialogCallback(newstate);
       
     }
 
@@ -250,19 +237,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
   
     //| -----------------------------------------------------------
     return (
-            <>
-             <p className="read-the-docs">
-            Click on the Vite and React logos to learn more
-            </p>
-            {/*  value={datepropDatepicker}  */}
-            <input ref={dateinputref}className="form-control datepinput" type="text" name="datepicker" id="datepickerinput" value={selecteddate} aria-label="Datepicker" onClick={() => setIsOpen(true)} onChange={testFunction}/>
-            
-            {isOpen && (
-            <dialog open ref={dialogref}  >   {/*  ref={ref} */}
-                <button onClick={() => setIsOpen(false)} autoFocus>Close</button>
-            
-            {/*  dateprop={datepropDatepicker} */}
-            <div className="mydaypickerwrapper"   >
+            <div className="mydaypickerwrapper"   ref={ref}  >
                 <div className="topdivdp">
               
                     <div className="chevronsdp chevrondpleft" onClick={() => changemonth(monthfordisplay, 'previous', yearfordisplay)}>
@@ -280,7 +255,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
             </div>
             
             <div className="mydatepickergrid">
-                <div className="dayofweek">Mon</div>
+                <div className="dayofweek">{ testrandom }</div>
                 <div className="dayofweek">Tue</div>
                 <div className="dayofweek">Wed</div>
                 <div className="dayofweek">Thu</div>
@@ -293,7 +268,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                 key={index}
                 onClick={() => {
                     changeDateCallback(day.datetxt);
-                    closedialog(false);
+                    closedialogCallback2(false);
                     changedateLocal(day.datetxt); 
                 } }
                     
@@ -308,12 +283,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                 ))}
         
             </div>
-            </div>
-            </dialog>
-      )}
-          
-
-            </>
+        </div>
         
     )
                 
