@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import './App.css'
 import Datepicker from './datepicker/Datepicker.jsx';
 //import * as bootstrap from 'bootstrap';
@@ -11,16 +11,11 @@ function App() {
   const[selecteddate, setSelecteddate] = useState('');
 
   //; CALLBACK FUNCTI
-  const handleDateChange = (newdate,setisopen2) => {
+  const handleDateChange = (newdate) => {
     console.log(newdate, 'newdate in handleDateChange');
     //setDatepropDatepicker(newdate);
     setSelecteddate(newdate);
   }
- /*  const closedialogCallback = (closeyesno) => { 
-    setIsOpen(closeyesno);
-  } */
-  // closedialogCallback={closedialogCallback}
-  //const [isOpen, setIsOpen] = useState(false);
 
   
   return (

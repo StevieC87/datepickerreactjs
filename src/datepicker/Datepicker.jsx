@@ -12,7 +12,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
        
         const [isOpen, setIsOpen] = useState(false);
         const[datepropDatepicker, setDatepropDatepicker] = useState('');
-        const[selecteddate, setSelecteddate] = useState('');
+     
         const dateinputref = useRef(); 
         const dialogref = useRef();
 
@@ -67,15 +67,23 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
      
       }
       else if(!datepropstate) {
-       console.warn('no dateprop')
+       console.warn('no datepropstate')
+       if (selecteddate2) {
+        console.log('selecteddate2HEREHERE', selecteddate2)
+        datetouse = selecteddate2;
+      }
+        else if (!selecteddate2) {
        let todaydate1 = new Date(); //example: 2021-05-05T10:00:00.000Z
        let todaydateforsure = todaydate1.toISOString().slice(0, 10); // example: 2021-05-05
     
         console.log(todaydateforsure, 'todaydateforsurexx');
         datetouse = todaydateforsure;
-
+        }
        // changeDateCallback(todaydateforsure)
       }
+      
+
+
         //-= Related to DATE prop  -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
         console.log('initial date', datetouse)
         //|get month and year from date
@@ -255,7 +263,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
             Click on the Vite and React logos to learn more
             </p>
             {/*  value={datepropDatepicker}  */}
-            <input ref={dateinputref}className="form-control datepinput" type="text" name="datepicker" id="datepickerinput" value={selecteddate} aria-label="Datepicker" onClick={() => setIsOpen(true)} onChange={testFunction}/>
+            <input ref={dateinputref}className="form-control datepinput" type="text" name="datepicker" id="datepickerinput" value={selecteddate2} aria-label="Datepicker" onClick={() => setIsOpen(true)} onChange={testFunction}/>
             
             {isOpen && (
             <dialog open ref={dialogref}  >   {/*  ref={ref} */}
@@ -298,7 +306,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                 } }
                     
                     
-                className={`dpdatebox ${day.monthname !== monthname ? 'grey' : ''} ${datepropstate === day.datetxt ? 'activedatebadge' : ''}`}
+                className={`dpdatebox ${day.monthname !== monthname ? 'grey' : ''} ${selecteddate2 === day.datetxt ? 'activedatebadge' : ''}`}
                 
                 data-date={day.datetxt} data-monthname={day.monthname} data-monthnumber={day.monthnumber} data-dayname={day.dayname} data-dayofweek={day.dayofweek} data-dayofweeknumber={day.dayofweeknumber} data-year={day.year} data-day={day.day} data-month={day.month}
                 >
