@@ -79,5 +79,20 @@ display: inline-block;
 .dpdatebox:hover {
     background-color: lightgrey;
     cursor: pointer;
+}
 
+.inputicon {
+   position: absolute;
+    right: 10px; /* Adjust the position as needed */
+    top: 50%;
+     transform: translateY(-50%);
+   cursor: pointer; 
+}
+
+.datepinput {
+    padding-right: 30px;
+}
+.datepickerformgroupdiv {
+    position: relative;
+    display: inline-block;
 }

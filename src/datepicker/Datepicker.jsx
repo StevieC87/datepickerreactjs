@@ -8,6 +8,9 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
 //; ----------------------------------------------------------------------
 //.DATE RELATED FUNCTIONS
     const Datepicker = React.forwardRef((props,ref) => {
+        
+        const dayPickerRef = useRef();
+
         const {dateprop, onDateChange, closedialogCallback} = props;
        
         const [isOpen, setIsOpen] = useState(false);
@@ -43,6 +46,8 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
 
     const[monthfordisplay, setMonthfordisplay] = useState(0);
     const[yearfordisplay, setYearfordisplay] = useState(0); //not sure about this
+
+    
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     //if no date: get todays MONTH only
     //if date: use that date
@@ -158,7 +163,6 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
 
     }, [selecteddate2])
 
-    const[testrandom, setTestrandom] = useState('');
     //. CHEVRONS CHANGE MONTH
     const changemonth = (currentmonthnum, previousnext, yearfordisplay22) => {
         console.log('changing month')
@@ -237,7 +241,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         let dateparam = new Date(newdate);
         console.log(dateparam, 'dateparam')
         setSelecteddate2(newdate);
-        setTestrandom(newdate);
+    
       
         
     }
@@ -253,6 +257,80 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
       
     }
 
+
+    //. 
+
+    /*   const clickopen = () => {
+        console.log('clickopen called')
+          if(isOpen === false) {
+            console.log('isopen false')
+            setIsOpen(true);
+            console.log('set isopen true')
+          }  
+         else {
+            console.log('isopen true')
+        
+         }
+        }
+ */
+    
+      useEffect(() => {
+        
+    const handleClickOutside = (event) => {
+        console.log(event.target, 'event.target')
+        console.log(event.target.id, 'event.target.id')
+        let targetid = event.target.id;
+        //first see if i
+        if (dateinputref.current && !dateinputref.current.contains(event.target)) {
+          //setIsOpen(false);
+          console.log('clickd outside datepicker input field')
+          if (dialogref.current && !dialogref.current.contains(event.target)) {
+            console.log('clicked outside dialogaaaa')
+            //setIsOpen(false);
+            if(isOpen === true) {
+              setIsOpen(false);
+             console.log('isopen')
+            }
+            else {
+              console.log('isnotopen')
+            }
+            console.log('clicked outside')
+            if(targetid === 'calendaricon') {
+              console.log('clicked on calendar icon')
+              setIsOpen(true);  
+            }
+            else {
+              setIsOpen(false);
+            }
+          
+             
+          }
+          else {
+            console.log('clicked inside')
+          } 
+        
+        }
+    
+        
+        else if (dateinputref.current && dateinputref.current.contains(event.target)) {
+          console.log('clicked inside datepicker input field') 
+        }
+    
+      }
+        
+  window.addEventListener('click', handleClickOutside);
+    
+        // Clean up the event listener
+        return () => {
+          window.removeEventListener('click', handleClickOutside);
+        };
+        //console.log('daypickerref useEffect called')
+        
+      /*    document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };  */
+      }, [dayPickerRef]); 
     // dispatch(setDateFordaypicker(todaydate));
 
   
@@ -263,7 +341,14 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
             Click on the Vite and React logos to learn more
             </p>
             {/*  value={datepropDatepicker}  */}
-            <input ref={dateinputref}className="form-control datepinput" type="text" name="datepicker" id="datepickerinput" value={selecteddate2} aria-label="Datepicker" onClick={() => setIsOpen(true)} onChange={testFunction}/>
+            <div className="datepickerformgroupdiv"  onClick={() => setIsOpen(true)}>
+            <input ref={dateinputref}className="form-control datepinput" type="text" name="datepicker" id="datepickerinput" value={selecteddate2} aria-label="Datepicker"   onClick={() => setIsOpen(true)} onChange={testFunction}/>
+            <i id="calendaricon" className="bi bi-calendar4-week inputicon" ></i>
+
+        {/* onClick={() => clickopen} */}
+
+             </div>
+            
             
             {isOpen && (
             <dialog open ref={dialogref}  >   {/*  ref={ref} */}
@@ -331,32 +416,3 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     Datepicker.displayName = 'Mydaypicker2';
 export default Datepicker;
 /*   onClick={() => dispatch(setDateFordaypicker(day.datetxt))} */
-
-/* 
-    //here we make array like monday tuesday wenesday etc, but with numbers
-   
-    function boxesweekdays35() {
-        let arrayboxesdayofweek = [];
-        for (let i = 0; i < 35; i++) {
-            console.log(i, 'i in boxesweekdays35')
-            let getdayofweek = getboxdayofweek(i);
-            arrayboxesdayofweek.push(getdayofweek);
-        }
-        console.log(arrayboxesdayofweek, 'arrayboxesdayofweek in boxesweekdays35')
-        return arrayboxesdayofweek;
-        
-    }
- */
-
-    //OLD STUFF
-
-     /* //THIS ISNMT USED BUT IT'S GOOD THE DATES OF FIRST MONTH ARE CORRECT BUT NOT ENOUGH I THINK THIS IS OLD
-    useEffect(() => {
-       if (daysinmonth) { 
-            const daysarray = loopmonthdays(daysinmonth, date); 
-            console.log(daysarray, 'daysarray in useEffect');
-            setArrayofDateObjects(daysarray); 
-        } 
-    }, [daysinmonth, date])
-       */
-    //style component
