@@ -11,7 +11,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         
         const dayPickerRef = useRef();
 
-        const {dateprop, onDateChange, closedialogCallback} = props;
+        const {dateprop, onDateChange, closedialogCallback, multiple} = props;
        
         const [isOpen, setIsOpen] = useState(false);
         const[datepropDatepicker, setDatepropDatepicker] = useState('');
@@ -47,16 +47,12 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     const[monthfordisplay, setMonthfordisplay] = useState(0);
     const[yearfordisplay, setYearfordisplay] = useState(0); //not sure about this
 
-    
-    //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-    //if no date: get todays MONTH only
-    //if date: use that date
-    //IF I WANT IT BLANK WHEN IT OPENS - ideally
- 
-  
+    const[multipleprop,setMultipleprop] = useState(multiple);
+    const[multipledatearray, setMultipledatearray] = useState([]);
         
     //; =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     //. ON TODAYS DATE CHANGE -> 
+    //; ===========================================================
     useEffect(() => {
         let monthfromdate1;
         let yearfromdate1;
@@ -86,9 +82,6 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         }
        // changeDateCallback(todaydateforsure)
       }
-      
-
-
         //-= Related to DATE prop  -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
         console.log('initial date', datetouse)
         //|get month and year from date
@@ -112,7 +105,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         setMonthnumber(getmonthnumberV);
         setDayofweek(getdayofweekV);
     }, [selecteddate2, datepropstate])
-
+    //; ===========================================================
     useEffect(() => {
         console.log('month OR YEAR for display CHANGED', monthfordisplay, yearfordisplay)
         //MAYBE ISSUE BECAUSE NOW WE HAVE JS MONTH -> AND MAYBE THE REST IS IN NORMAL MONTHS
@@ -149,20 +142,14 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
           //  console.log(testthis, 'testthis')
        
     }, [monthfordisplay, yearfordisplay])
-        //console.log(typeof monthfromdate1, 'monthfromdate1')
-        //console.log(monthfromdate1, 'monthfromdate1') 
-        //console.log(yearfromdate1, 'yearfromdate1')
-        //console.log(getmonthnumberV, 'getmonthnumber');
-        //console.log(getdayofweekV, 'getdayofweek');
-
-        
-    //. -----------------------------------------------------------
+   
+    //; ===========================================================
     useEffect(() => {
         
         console.log('selecteddate2 changed', selecteddate2)
 
     }, [selecteddate2])
-
+    //; ===========================================================
     //. CHEVRONS CHANGE MONTH
     const changemonth = (currentmonthnum, previousnext, yearfordisplay22) => {
         console.log('changing month')
@@ -220,19 +207,6 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
             }
           
         }  
- 
-
-
-       
-       
-      
-       
-        //make date from that month
-      //  let madeupdate = new Date(yearfromdate, newmonth, 1);
-      //  console.log(madeupdate, 'madeupdate')
-      //  console.log(cmonthnumberinjs, 'cmonthnumberinjs');
-       // console.log(newmonth, 'newmonth')
-
 
     }
     const changedateLocal = (newdate) => {
@@ -245,6 +219,8 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
       
         
     }
+   
+    //; ===========================================================
     //. CHANGE DATE ON CLICK CALLBACK
     const changeDateCallback = (newdate) => {
         onDateChange(newdate);
@@ -256,68 +232,52 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         setIsOpen(newstate);
       
     }
-
-
-    //. 
-
-    /*   const clickopen = () => {
-        console.log('clickopen called')
-          if(isOpen === false) {
-            console.log('isopen false')
-            setIsOpen(true);
-            console.log('set isopen true')
-          }  
-         else {
-            console.log('isopen true')
-        
-         }
-        }
- */
-    
+    //; ===========================================================
+    //; OUTSIDE CLICK DETECTION - CLOSE DIALOG
       useEffect(() => {
         
-    const handleClickOutside = (event) => {
-        console.log(event.target, 'event.target')
-        console.log(event.target.id, 'event.target.id')
-        let targetid = event.target.id;
-        //first see if i
-        if (dateinputref.current && !dateinputref.current.contains(event.target)) {
-          //setIsOpen(false);
-          console.log('clickd outside datepicker input field')
-          if (dialogref.current && !dialogref.current.contains(event.target)) {
-            console.log('clicked outside dialogaaaa')
+      const handleClickOutside = (event) => {
+          console.log(event.target, 'event.target')
+          console.log(event.target.id, 'event.target.id')
+          let targetid = event.target.id;
+          //first see if i
+          if (dateinputref.current && !dateinputref.current.contains(event.target)) {
             //setIsOpen(false);
-            if(isOpen === true) {
-              setIsOpen(false);
-             console.log('isopen')
+            console.log('clickd outside datepicker input field')
+            if (dialogref.current && !dialogref.current.contains(event.target)) {
+              console.log('clicked outside dialogaaaa')
+              //setIsOpen(false);
+              if(isOpen === true) {
+                setIsOpen(false);
+              console.log('isopen')
+              }
+              else {
+                console.log('isnotopen')
+              }
+              console.log('clicked outside')
+              if(targetid === 'calendaricon') {
+                console.log('clicked on calendar icon')
+                setIsOpen(true);  
+              }
+              else {
+                setIsOpen(false);
+              }
+            
+              
             }
             else {
-              console.log('isnotopen')
-            }
-            console.log('clicked outside')
-            if(targetid === 'calendaricon') {
-              console.log('clicked on calendar icon')
-              setIsOpen(true);  
-            }
-            else {
-              setIsOpen(false);
-            }
+              console.log('clicked inside')
+            } 
           
-             
           }
-          else {
-            console.log('clicked inside')
-          } 
-        
+      
+          
+          else if (dateinputref.current && dateinputref.current.contains(event.target)) {
+            console.log('clicked inside datepicker input field') 
+          }
+      
         }
-    
-        
-        else if (dateinputref.current && dateinputref.current.contains(event.target)) {
-          console.log('clicked inside datepicker input field') 
-        }
-    
-      }
-        
+          
   window.addEventListener('click', handleClickOutside);
     
         // Clean up the event listener
@@ -331,6 +291,17 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
             document.removeEventListener("mousedown", handleClickOutside);
         };  */
       }, [dayPickerRef]); 
+
+      const [customclass, setCustomclass] = useState('');
+      useEffect(() => {
+          let multipleselectedclass = `
+            .activatedmultiple {
+              background-color: red;
+
+            }
+          `
+      }), [multipleprop] 
+
     // dispatch(setDateFordaypicker(todaydate));
 
   
@@ -385,13 +356,37 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                 <div 
                 key={index}
                 onClick={() => {
-                    changeDateCallback(day.datetxt);
-                    closedialog(false);
-                    changedateLocal(day.datetxt); 
+
+                    if(multipleprop === 'yes') {
+
+                      //first check if it exists in the array already
+                      if(multipledatearray.find(item => item == day.datetxt)) {
+                        //remove it
+                        console.log('exists')
+                        let newarray = multipledatearray.filter(item => item !== day.datetxt);
+                        setMultipledatearray(newarray);
+                      }
+                      else {
+                      
+                      console.log('multiple')
+                      console.log(typeof day.datetxt, 'day.datetxt typeof')
+                      setMultipledatearray([...multipledatearray, day.datetxt]);
+                      changeDateCallback(multipledatearray);
+
+                      }
+                    }
+                    else {
+                      changeDateCallback(day.datetxt);
+                      closedialog(false);
+                      changedateLocal(day.datetxt); 
+                    }
+
+                  
                 } }
                     
                     
-                className={`dpdatebox ${day.monthname !== monthname ? 'grey' : ''} ${selecteddate2 === day.datetxt ? 'activedatebadge' : ''}`}
+                className={`dpdatebox ${day.monthname !== monthname ? 'grey' : ''} ${selecteddate2 === day.datetxt ? 'activedatebadge' : ''} ${multipledatearray &&
+                   multipledatearray.find(item => item == day.datetxt) ? 'activedatebadge' : ''} `}
                 
                 data-date={day.datetxt} data-monthname={day.monthname} data-monthnumber={day.monthnumber} data-dayname={day.dayname} data-dayofweek={day.dayofweek} data-dayofweeknumber={day.dayofweeknumber} data-year={day.year} data-day={day.day} data-month={day.month}
                 >
@@ -402,6 +397,26 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         
             </div>
             </div>
+            <div className="monthsdiv"> 
+                <div className="monthdiv">January</div>
+                <div className="monthdiv">February</div>
+                <div className="monthdiv">March</div>
+                <div className="monthdiv">April</div>
+                <div className="monthdiv">May</div>
+                <div className="monthdiv">June</div>
+                <div className="monthdiv">July</div>
+                <div className="monthdiv">August</div>
+                <div className="monthdiv">September</div>
+                <div className="monthdiv">October</div>
+                <div className="monthdiv">November</div>
+                <div className="monthdiv">December</div>
+            </div>
+            <span> multiple: {multipleprop}</span>
+            { multipledatearray && multipledatearray.map((date, index) => (
+              
+              <div key={index}>{date}</div>
+            
+    ))}
             </dialog>
       )}
           

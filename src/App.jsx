@@ -20,7 +20,7 @@ function App() {
   
   return (
     <>
-  <Datepicker ref={dayPickerRef} onDateChange={handleDateChange} dateprop={selecteddate}
+  <Datepicker  ref={dayPickerRef} onDateChange={handleDateChange} dateprop={selecteddate} multiple="yes"
        
         />
      </>
