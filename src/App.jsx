@@ -8,19 +8,33 @@ function App() {
 
   const dayPickerRef = useRef();
 
-  const[selecteddate, setSelecteddate] = useState('');
+  const [singlemultiple, setSinglemultiple] = useState(''); //or empty string for single date selection
+  const[selecteddate, setSelecteddate] = useState('2024-01-13');
+  const[selecteddatesMulti, setSelecteddatesMulti] = useState([]);
 
   //; CALLBACK FUNCTI
   const handleDateChange = (newdate) => {
+    
+    if(typeof newdate === 'object'){
+      console.log('newdate is object');
+      //setSelecteddate(newdate);
+      setSelecteddatesMulti(prevState => [...prevState, newdate]);
+  }
+  else {
     console.log(newdate, 'newdate in handleDateChange');
     //setDatepropDatepicker(newdate);
     setSelecteddate(newdate);
   }
+}
 
   
   return (
     <>
-  <Datepicker  ref={dayPickerRef} onDateChange={handleDateChange} dateprop={selecteddate} multiple="yes"
+  <Datepicker  ref={dayPickerRef} onDateChange={handleDateChange} 
+    dateprop={
+      singlemultiple == 'multiple' ? selecteddatesMulti : selecteddate
+    }
+     multiple={singlemultiple}
        
         />
      </>

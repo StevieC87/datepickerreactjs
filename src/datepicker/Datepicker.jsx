@@ -9,6 +9,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
 //.DATE RELATED FUNCTIONS
     const Datepicker = React.forwardRef((props,ref) => {
         
+      const[selectedateArray, setSelecteddateArray] = useState([]);
         const dayPickerRef = useRef();
 
         const {dateprop, onDateChange, closedialogCallback, multiple} = props;
@@ -49,7 +50,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
 
     const[multipleprop,setMultipleprop] = useState(multiple);
     const[multipledatearray, setMultipledatearray] = useState([]);
-        
+    const[datepropPassed, setDatepropPassed] = useState(false);
     //; =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     //. ON TODAYS DATE CHANGE -> 
     //; ===========================================================
@@ -65,6 +66,25 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         console.log('datepropstate', datepropstate)
         datetouse = datepropstate;
         console.warn('dateprop yes', )
+        if(typeof datepropstate == 'object') {
+          console.log('datepropstate is AN OBJECT')
+          console.log(datepropstate.length, 'datepropstate.length')
+          console.log(datepropstate,'datepropstate')
+          if(datepropstate.length == 0) {
+            console.log('object no length PROP DATES MULTIPLE ^&&&')
+            let todaydate1 = new Date(); //example: 2021-05-05T10:00:00.000Z
+       let todaydateforsure = todaydate1.toISOString().slice(0, 10); // example: 2021-05-05
+    
+        console.log(todaydateforsure, 'todaydateforsurexx');
+        datetouse = todaydateforsure; 
+          }
+          
+        }
+        else if(typeof datepropstate == 'string') {
+          console.log('datepropstate is A STRING')
+          datetouse = datepropstate;
+          setDatepropPassed(true);
+        }
      
       }
       else if(!datepropstate) {
@@ -105,6 +125,15 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         setMonthnumber(getmonthnumberV);
         setDayofweek(getdayofweekV);
     }, [selecteddate2, datepropstate])
+
+    useEffect(() => {
+
+      if(datepropPassed) {
+        setSelecteddate2(datepropstate)
+
+      }
+     
+    }, [datepropPassed])
     //; ===========================================================
     useEffect(() => {
         console.log('month OR YEAR for display CHANGED', monthfordisplay, yearfordisplay)
@@ -210,11 +239,32 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
 
     }
     const changedateLocal = (newdate) => {
+
+    //if prop multiiple..
+    if(multipleprop === 'yes') {
+      //if it exists remove it 
+     /*  if(selectedateArray.find(item => item == newdate)) {
+        let newarray = selectedateArray.filter(item => item !== newdate);
+        setSelecteddateArray(newarray);
+
+      } */
+      if(selectedateArray.find(item => item == newdate)) {
+                        //remove it
+        console.log('exists')
+        let newarray = selectedateArray.filter(item => item !== newdate);
+        setSelecteddateArray(newarray);
+                      }
+      else {
+        setSelecteddateArray([...selectedateArray, newdate]);
+      }
+    }
+    else {
         console.log(newdate, 'newdate in changedateLocal')
         console.log(typeof newdate, 'newdate in changedateLocal')
         let dateparam = new Date(newdate);
         console.log(dateparam, 'dateparam')
         setSelecteddate2(newdate);
+    }
     
       
         
@@ -292,15 +342,6 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         };  */
       }, [dayPickerRef]); 
 
-      const [customclass, setCustomclass] = useState('');
-      useEffect(() => {
-          let multipleselectedclass = `
-            .activatedmultiple {
-              background-color: red;
-
-            }
-          `
-      }), [multipleprop] 
 
     // dispatch(setDateFordaypicker(todaydate));
 
@@ -313,7 +354,26 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
             </p>
             {/*  value={datepropDatepicker}  */}
             <div className="datepickerformgroupdiv"  onClick={() => setIsOpen(true)}>
-            <input ref={dateinputref}className="form-control datepinput" type="text" name="datepicker" id="datepickerinput" value={selecteddate2} aria-label="Datepicker"   onClick={() => setIsOpen(true)} onChange={testFunction}/>
+            <input ref={dateinputref} className="form-control datepinput" type="text" name="datepicker" id="datepickerinput" 
+            value={
+            selectedateArray && selectedateArray.length > 0 ? selectedateArray : selecteddate2
+            } 
+            aria-label="Datepicker"   onClick={() => setIsOpen(true)} 
+            /* onChange={{testFunction} */
+             onChange={e => {
+                if (selectedateArray && selectedateArray.length > 0) {
+                  // If selectedateArray is not empty, update it
+                  let valueinput = dateinputref.current.value;
+                  console.log(valueinput, 'valueinput')
+              //   setSelecteddateArray([e.target.value]);
+               //   changeDateCallback(day.datetxt);
+                } else {
+                  // Otherwise, update selecteddate2
+                  setSelecteddate2(e.target.value);
+                }
+              }
+            }
+            />
             <i id="calendaricon" className="bi bi-calendar4-week inputicon" ></i>
 
         {/* onClick={() => clickopen} */}
@@ -367,11 +427,13 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                         setMultipledatearray(newarray);
                       }
                       else {
-                      
+                      //ADD IT 
                       console.log('multiple')
                       console.log(typeof day.datetxt, 'day.datetxt typeof')
                       setMultipledatearray([...multipledatearray, day.datetxt]);
-                      changeDateCallback(multipledatearray);
+                      // changeDateCallback(multipledatearray);
+                      changeDateCallback(day.datetxt);
+                      changedateLocal(day.datetxt); 
 
                       }
                     }
