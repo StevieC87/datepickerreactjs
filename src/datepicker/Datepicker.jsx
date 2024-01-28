@@ -51,6 +51,12 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     const[multipleprop,setMultipleprop] = useState(multiple);
     const[multipledatearray, setMultipledatearray] = useState([]);
     const[datepropPassed, setDatepropPassed] = useState(false);
+    
+    // FOR THE MONTHS CHANGE
+    const[showmonth, setShowmonth] = useState(false);
+    const[showyear, setShowyear] = useState(false);
+    
+    
     //; =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     //. ON TODAYS DATE CHANGE -> 
     //; ===========================================================
@@ -342,7 +348,14 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         };  */
       }, [dayPickerRef]); 
 
-
+      const  changesetshowmonth = () => {
+        if(showmonth === false) {
+          setShowmonth(true);
+        }
+        else {
+          setShowmonth(false);
+        }
+      }
     // dispatch(setDateFordaypicker(todaydate));
 
   
@@ -398,8 +411,8 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                     <div className="chevronsdp chevrondpleft" onClick={() => changemonth(monthfordisplay, 'previous', yearfordisplay)}>
                         <i className="bi bi-chevron-left"></i>
                     </div>
-                    <div className="monthnamedp">
-                        { monthname } 
+                    <div className="monthnamedp" >
+                        <span onClick={() => changesetshowmonth()}>{ monthname } </span>
                         <span>  </span>  {  yearfordisplay } 
                     </div>
                     
@@ -408,7 +421,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                 </div>
 
             </div>
-            
+            {!showmonth && (  
             <div className="mydatepickergrid">
                 <div className="dayofweek">Mon</div>
                 <div className="dayofweek">Tue</div>
@@ -464,21 +477,27 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                 ))}
         
             </div>
+             )}
+              {showmonth && (
+              <div className="monthsdiv"> 
+              <div className="monthdiv">January</div>
+              <div className="monthdiv">February</div>
+              <div className="monthdiv">March</div>
+              <div className="monthdiv">April</div>
+              <div className="monthdiv">May</div>
+              <div className="monthdiv">June</div>
+              <div className="monthdiv">July</div>
+              <div className="monthdiv">August</div>
+              <div className="monthdiv">September</div>
+              <div className="monthdiv">October</div>
+              <div className="monthdiv">November</div>
+              <div className="monthdiv">December</div>
+          </div>) 
+            }
             </div>
-            <div className="monthsdiv"> 
-                <div className="monthdiv">January</div>
-                <div className="monthdiv">February</div>
-                <div className="monthdiv">March</div>
-                <div className="monthdiv">April</div>
-                <div className="monthdiv">May</div>
-                <div className="monthdiv">June</div>
-                <div className="monthdiv">July</div>
-                <div className="monthdiv">August</div>
-                <div className="monthdiv">September</div>
-                <div className="monthdiv">October</div>
-                <div className="monthdiv">November</div>
-                <div className="monthdiv">December</div>
-            </div>
+           
+           
+            
             <span> multiple: {multipleprop}</span>
             { multipledatearray && multipledatearray.map((date, index) => (
               
