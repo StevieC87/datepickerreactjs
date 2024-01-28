@@ -401,6 +401,10 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
           setYearfordisplay(newyear);
         }
       } 
+      const selectnewyearfunction = (selectedyear) => {
+        setYearfordisplay(selectedyear);
+        setShowYears(false);
+      }
       //her eto decide whether chevrons change month or year
       //have two chevrons, one for month, one for year
 
@@ -562,7 +566,10 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
             <div className='yeardiv'>
               {yearsArray && yearsArray.map((year, index) => (
                 
-                <div key={index} className={`yeardivitem ${year === yearfordisplay ? 'activeyear' : ''}`}> {year} </div>
+                <div key={index} className={`yeardivitem ${year === yearfordisplay ? 'activeyear' : ''}`} 
+               /*   onClick={() => selectnewyearfunction(year)} */
+                 onClick={(event) => { event.stopPropagation();  selectnewyearfunction(year)}}
+                 > {year} </div>
               ))}
            
             </div>
