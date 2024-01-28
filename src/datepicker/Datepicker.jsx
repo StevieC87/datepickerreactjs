@@ -316,7 +316,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                 setIsOpen(true);  
               }
               else {
-                setIsOpen(false);
+              setIsOpen(false);
               }
             
               
@@ -357,7 +357,11 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         }
       }
     // dispatch(setDateFordaypicker(todaydate));
-
+      const changemonthclick = (monthnumber) => {
+        console.log(monthnumber, 'monthnumber')
+        setMonthfordisplay(monthnumber);
+        setShowmonth(false);
+      }
   
     //| -----------------------------------------------------------
     return (
@@ -480,19 +484,21 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
              )}
               {showmonth && (
               <div className="monthsdiv"> 
-              <div className="monthdiv">January</div>
-              <div className="monthdiv">February</div>
-              <div className="monthdiv">March</div>
-              <div className="monthdiv">April</div>
-              <div className="monthdiv">May</div>
-              <div className="monthdiv">June</div>
-              <div className="monthdiv">July</div>
-              <div className="monthdiv">August</div>
-              <div className="monthdiv">September</div>
-              <div className="monthdiv">October</div>
-              <div className="monthdiv">November</div>
-              <div className="monthdiv">December</div>
-          </div>) 
+                <div className="monthdiv" id="1" onClick={(event) => { event.stopPropagation();  changemonthclick(1)}}>January</div>
+                <div className="monthdiv" id="2" onClick={(event) => { event.stopPropagation();  changemonthclick(2)}}>February</div>
+                <div className="monthdiv" id="3"  onClick={(event) => { event.stopPropagation();  changemonthclick(3)}}>March</div>
+                <div className="monthdiv" id="4"  onClick={(event) => { event.stopPropagation();  changemonthclick(4)}}>April</div>
+                <div className="monthdiv" id="5"  onClick={(event) => { event.stopPropagation();  changemonthclick(5)}}>May</div>
+                <div className="monthdiv" id="6"  onClick={(event) => { event.stopPropagation();  changemonthclick(6)}}>June</div>
+                <div className="monthdiv" id="7"  onClick={(event) => { event.stopPropagation();  changemonthclick(7)}}>July</div>
+                <div className="monthdiv" id="8"  onClick={(event) => { event.stopPropagation();  changemonthclick(8)}}>August</div>
+                <div className="monthdiv" id="9"  onClick={(event) => { event.stopPropagation();  changemonthclick(9)}}>September</div>
+                <div className="monthdiv" id="10"  onClick={(event) => { event.stopPropagation();  changemonthclick(10)}}>October</div>
+                <div className="monthdiv" id="11"  onClick={(event) => { event.stopPropagation();  changemonthclick(11)}}>November</div>
+                <div className="monthdiv" id="12"  onClick={(event) => { event.stopPropagation();  changemonthclick(12)}}>December</div>
+                
+               </div>
+            ) 
             }
             </div>
            
