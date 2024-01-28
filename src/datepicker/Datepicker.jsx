@@ -54,7 +54,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     
     // FOR THE MONTHS CHANGE
     const[showmonth, setShowmonth] = useState(false);
-    const[showyear, setShowyear] = useState(false);
+  
     
     
     //; =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -351,6 +351,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
       const  changesetshowmonth = () => {
         if(showmonth === false) {
           setShowmonth(true);
+          setShowYears(false);
         }
         else {
           setShowmonth(false);
@@ -384,6 +385,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         
         if(showyears === false) {
           setShowYears(true);
+          setShowmonth(false);
         }
         else {
           setShowYears(false);
@@ -545,18 +547,18 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
              )}
               {showmonth && !showyears && (
               <div className="monthsdiv"> 
-                <div className="monthdiv" id="1" onClick={(event) => { event.stopPropagation();  changemonthclick(1)}}>January</div>
-                <div className="monthdiv" id="2" onClick={(event) => { event.stopPropagation();  changemonthclick(2)}}>February</div>
-                <div className="monthdiv" id="3"  onClick={(event) => { event.stopPropagation();  changemonthclick(3)}}>March</div>
-                <div className="monthdiv" id="4"  onClick={(event) => { event.stopPropagation();  changemonthclick(4)}}>April</div>
-                <div className="monthdiv" id="5"  onClick={(event) => { event.stopPropagation();  changemonthclick(5)}}>May</div>
-                <div className="monthdiv" id="6"  onClick={(event) => { event.stopPropagation();  changemonthclick(6)}}>June</div>
-                <div className="monthdiv" id="7"  onClick={(event) => { event.stopPropagation();  changemonthclick(7)}}>July</div>
-                <div className="monthdiv" id="8"  onClick={(event) => { event.stopPropagation();  changemonthclick(8)}}>August</div>
-                <div className="monthdiv" id="9"  onClick={(event) => { event.stopPropagation();  changemonthclick(9)}}>September</div>
-                <div className="monthdiv" id="10"  onClick={(event) => { event.stopPropagation();  changemonthclick(10)}}>October</div>
-                <div className="monthdiv" id="11"  onClick={(event) => { event.stopPropagation();  changemonthclick(11)}}>November</div>
-                <div className="monthdiv" id="12"  onClick={(event) => { event.stopPropagation();  changemonthclick(12)}}>December</div>
+                <div className="monthdiv curserpointer" id="1" onClick={(event) => { event.stopPropagation();  changemonthclick(1)}}>January</div>
+                <div className="monthdiv curserpointer" id="2" onClick={(event) => { event.stopPropagation();  changemonthclick(2)}}>February</div>
+                <div className="monthdiv curserpointer" id="3"  onClick={(event) => { event.stopPropagation();  changemonthclick(3)}}>March</div>
+                <div className="monthdiv curserpointer" id="4"  onClick={(event) => { event.stopPropagation();  changemonthclick(4)}}>April</div>
+                <div className="monthdiv curserpointer" id="5"  onClick={(event) => { event.stopPropagation();  changemonthclick(5)}}>May</div>
+                <div className="monthdiv curserpointer" id="6"  onClick={(event) => { event.stopPropagation();  changemonthclick(6)}}>June</div>
+                <div className="monthdiv curserpointer" id="7"  onClick={(event) => { event.stopPropagation();  changemonthclick(7)}}>July</div>
+                <div className="monthdiv curserpointer" id="8"  onClick={(event) => { event.stopPropagation();  changemonthclick(8)}}>August</div>
+                <div className="monthdiv curserpointer" id="9"  onClick={(event) => { event.stopPropagation();  changemonthclick(9)}}>September</div>
+                <div className="monthdiv curserpointer" id="10"  onClick={(event) => { event.stopPropagation();  changemonthclick(10)}}>October</div>
+                <div className="monthdiv curserpointer" id="11"  onClick={(event) => { event.stopPropagation();  changemonthclick(11)}}>November</div>
+                <div className="monthdiv curserpointer" id="12"  onClick={(event) => { event.stopPropagation();  changemonthclick(12)}}>December</div>
                 
                </div>
             ) 
@@ -569,7 +571,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                 <div key={index} className={`yeardivitem ${year === yearfordisplay ? 'activeyear' : ''}`} 
                /*   onClick={() => selectnewyearfunction(year)} */
                  onClick={(event) => { event.stopPropagation();  selectnewyearfunction(year)}}
-                 > {year} </div>
+                 > <span className="curserpointer"> {year} </span></div>
               ))}
            
             </div>

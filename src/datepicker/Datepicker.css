@@ -101,7 +101,7 @@ display: inline-block;
 .monthsdiv{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    
+    grid-
 }
 
 .monthdiv{
@@ -111,8 +111,34 @@ display: inline-block;
 .yeardiv {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, auto); /* Define 4 rows */
+
 }
+.monthdiv {
+    text-align: center;
+    padding: 5px;
+    cursor: pointer;
+}
+.monthdiv:nth-child(1) { grid-column: 1; grid-row: 1; } /* January */
+.monthdiv:nth-child(2) { grid-column: 1; grid-row: 2; } /* February */
+.monthdiv:nth-child(3) { grid-column: 1; grid-row: 3; } /* March */
+.monthdiv:nth-child(4) { grid-column: 1; grid-row: 4; } /* April */
+.monthdiv:nth-child(5) { grid-column: 2; grid-row: 1; } /* May */
+.monthdiv:nth-child(6) { grid-column: 2; grid-row: 2; } /* June */
+.monthdiv:nth-child(7) { grid-column: 2; grid-row: 3; } /* July */
+.monthdiv:nth-child(8) { grid-column: 2; grid-row: 4; } /* August */
+.monthdiv:nth-child(9) { grid-column: 3; grid-row: 1; } /* September */
+.monthdiv:nth-child(10) { grid-column: 3; grid-row: 2; } /* October */
+.monthdiv:nth-child(11) { grid-column: 3; grid-row: 3; } /* November */
+.monthdiv:nth-child(12) { grid-column: 3; grid-row: 4; } /* December */
+
+
+
 
 .activeyear {
     font-weight: bold;
+}
+
+.curserpointer {
+  cursor: pointer;
 }
