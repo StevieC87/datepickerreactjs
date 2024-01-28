@@ -8,8 +8,8 @@ function App() {
 
   const dayPickerRef = useRef();
 
-  const [singlemultiple, setSinglemultiple] = useState(''); //or empty string for single date selection
-  const[selecteddate, setSelecteddate] = useState('2024-01-13');
+  const [singlemultiple, setSinglemultiple] = useState('yes'); //or empty string for single date selection
+  const[selecteddate, setSelecteddate] = useState('');
   const[selecteddatesMulti, setSelecteddatesMulti] = useState([]);
 
   //; CALLBACK FUNCTI

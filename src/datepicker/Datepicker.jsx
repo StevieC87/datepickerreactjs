@@ -362,10 +362,16 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
             /* onChange={{testFunction} */
              onChange={e => {
                 if (selectedateArray && selectedateArray.length > 0) {
+                  //TODO THIS IS WHAT WE'RE WORKING ON HERE 
                   // If selectedateArray is not empty, update it
                   let valueinput = dateinputref.current.value;
+                  let valueinputarray = valueinput.split(',');
+                  console.log(valueinputarray, 'valueinputarray')
+                  //back to string with the comma 
+               
                   console.log(valueinput, 'valueinput')
-              //   setSelecteddateArray([e.target.value]);
+                setSelecteddateArray([valueinput]);
+                setMultipledatearray(valueinputarray);
                //   changeDateCallback(day.datetxt);
                 } else {
                   // Otherwise, update selecteddate2
@@ -414,17 +420,17 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
 
             { allweeksdates && allweeksdates.map((day, index) => (
                 <div 
-                key={index}
+                key={day.datetxt}
                 onClick={() => {
 
                     if(multipleprop === 'yes') {
-
                       //first check if it exists in the array already
                       if(multipledatearray.find(item => item == day.datetxt)) {
                         //remove it
                         console.log('exists')
                         let newarray = multipledatearray.filter(item => item !== day.datetxt);
                         setMultipledatearray(newarray);
+                        setSelecteddateArray(newarray);
                       }
                       else {
                       //ADD IT 
@@ -450,7 +456,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                 className={`dpdatebox ${day.monthname !== monthname ? 'grey' : ''} ${selecteddate2 === day.datetxt ? 'activedatebadge' : ''} ${multipledatearray &&
                    multipledatearray.find(item => item == day.datetxt) ? 'activedatebadge' : ''} `}
                 
-                data-date={day.datetxt} data-monthname={day.monthname} data-monthnumber={day.monthnumber} data-dayname={day.dayname} data-dayofweek={day.dayofweek} data-dayofweeknumber={day.dayofweeknumber} data-year={day.year} data-day={day.day} data-month={day.month}
+                data-date={day.datetxt} data-monthname={day.monthname} data-monthnumber={day.monthnumber} /* data-dayname={day.dayname} data-dayofweek={day.dayofweek} data-dayofweeknumber={day.dayofweeknumber} data-year={day.year} data-day={day.day} data-month={day.month} */
                 >
                     {day.datetxt.split('-')[2]}
                   
@@ -476,9 +482,10 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
             <span> multiple: {multipleprop}</span>
             { multipledatearray && multipledatearray.map((date, index) => (
               
-              <div key={index}>{date}</div>
+              <div key={index}>{date}a</div>
             
     ))}
+    { selectedateArray}
             </dialog>
       )}
           
