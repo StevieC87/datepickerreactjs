@@ -362,7 +362,48 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         setMonthfordisplay(monthnumber);
         setShowmonth(false);
       }
-  
+      //; GET YEARS 
+      const[yearsArray, setYearsArray] = useState([]);
+      const[showyears, setShowYears] = useState(false);
+      useEffect(() => { 
+        //get current year 
+        let selectedyear = yearfordisplay;
+        //get 10 years before and after 
+        let yearsbefore = selectedyear - 10;
+        let yearsafter = selectedyear + 10;
+        let yearsarray = [];
+        for(let i = yearsbefore; i <= yearsafter; i++) {
+          yearsarray.push(i);
+        }
+        console.log(yearsarray, 'yearsarray')
+        setYearsArray(yearsarray);
+      }, [yearfordisplay])
+
+      //WHEN CLICK ON YEAR - shows years div
+      const showyearsfunction = () => {
+        
+        if(showyears === false) {
+          setShowYears(true);
+        }
+        else {
+          setShowYears(false);
+        }
+
+      }
+      const changeyearfunction = (plusorminus) => {
+        let currentselectyear = yearfordisplay;
+        if(plusorminus === 'plus') {
+          let newyear = currentselectyear + 10;
+          setYearfordisplay(newyear);
+        }
+        else if(plusorminus === 'minus') {
+          let newyear = currentselectyear - 10;
+          setYearfordisplay(newyear);
+        }
+      } 
+      //her eto decide whether chevrons change month or year
+      //have two chevrons, one for month, one for year
+
     //| -----------------------------------------------------------
     return (
             <>
@@ -371,40 +412,44 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
             </p>
             {/*  value={datepropDatepicker}  */}
             <div className="datepickerformgroupdiv"  onClick={() => setIsOpen(true)}>
-            <input ref={dateinputref} className="form-control datepinput" type="text" name="datepicker" id="datepickerinput" 
-            value={
-            selectedateArray && selectedateArray.length > 0 ? selectedateArray : selecteddate2
-            } 
-            aria-label="Datepicker"   onClick={() => setIsOpen(true)} 
-            /* onChange={{testFunction} */
-             onChange={e => {
-                if (selectedateArray && selectedateArray.length > 0) {
-                  //TODO THIS IS WHAT WE'RE WORKING ON HERE 
-                  // If selectedateArray is not empty, update it
-                  let valueinput = dateinputref.current.value;
-                  let valueinputarray = valueinput.split(',');
-                  console.log(valueinputarray, 'valueinputarray')
-                  //back to string with the comma 
-               
-                  console.log(valueinput, 'valueinput')
-                setSelecteddateArray([valueinput]);
-                setMultipledatearray(valueinputarray);
-               //   changeDateCallback(day.datetxt);
-                } else {
-                  // Otherwise, update selecteddate2
-                  setSelecteddate2(e.target.value);
+              <input 
+                ref={dateinputref}
+                className="form-control datepinput" 
+                type="text" 
+                name="datepicker"
+                id="datepickerinput" 
+                value={
+                 selectedateArray && selectedateArray.length > 0 ? selectedateArray : selecteddate2
+                } 
+                aria-label="Datepicker"   onClick={() => setIsOpen(true)} 
+                /* onChange={{testFunction} */
+                onChange={e => {
+                  if (selectedateArray && selectedateArray.length > 0) {
+                    //TODO THIS IS WHAT WE'RE WORKING ON HERE 
+                    // If selectedateArray is not empty, update it
+                    let valueinput = dateinputref.current.value;
+                    let valueinputarray = valueinput.split(',');
+                    console.log(valueinputarray, 'valueinputarray')
+                    //back to string with the comma 
+                
+                    console.log(valueinput, 'valueinput')
+                  setSelecteddateArray([valueinput]);
+                  setMultipledatearray(valueinputarray);
+                //   changeDateCallback(day.datetxt);
+                  } else {
+                    // Otherwise, update selecteddate2
+                    setSelecteddate2(e.target.value);
+                  }
                 }
               }
-            }
             />
             <i id="calendaricon" className="bi bi-calendar4-week inputicon" ></i>
 
         {/* onClick={() => clickopen} */}
 
-             </div>
-            
-            
-            {isOpen && (
+             </div>            
+             
+            {isOpen &&  (
             <dialog open ref={dialogref}  >   {/*  ref={ref} */}
                 <button onClick={() => setIsOpen(false)} autoFocus>Close</button>
             
@@ -412,20 +457,32 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
             <div className="mydaypickerwrapper"   >
                 <div className="topdivdp">
               
-                    <div className="chevronsdp chevrondpleft" onClick={() => changemonth(monthfordisplay, 'previous', yearfordisplay)}>
+                   {!showyears && ( <div className="chevronsdp chevrondpleft" onClick={() => changemonth(monthfordisplay, 'previous', yearfordisplay)}>
                         <i className="bi bi-chevron-left"></i>
                     </div>
+                    )}
+                     {showyears && ( <div className="chevronsdp chevrondpleft" onClick={() => changeyearfunction('minus')}>
+                        <i className="bi bi-chevron-left"></i>
+                    </div>
+                    )}
                     <div className="monthnamedp" >
-                        <span onClick={() => changesetshowmonth()}>{ monthname } </span>
-                        <span>  </span>  {  yearfordisplay } 
+                        <span className="curserpointer" onClick={() => changesetshowmonth()}>{ monthname } </span>
+                        <span  className="curserpointer" onClick={() => showyearsfunction()}>  {  yearfordisplay }  </span> 
                     </div>
                     
-                    <div className="chevronsdp chevrondpright" onClick={() => changemonth(monthfordisplay, 'next', yearfordisplay)}>
-                    <i className="bi bi-chevron-right"></i>
-                </div>
+                    {!showyears && (
+                        <div className="chevronsdp chevrondpright" onClick={() => changemonth(monthfordisplay, 'next')}>
+                          <i className="bi bi-chevron-right"></i>
+                        </div>
+                    )}
+                     {showyears && ( <div className="chevronsdp chevrondpleft" onClick={() => changeyearfunction('plus', yearfordisplay)}>
+                        <i className="bi bi-chevron-right"></i>
+                      </div>
+                      )}
+
 
             </div>
-            {!showmonth && (  
+            {!showmonth && !showyears && (  
             <div className="mydatepickergrid">
                 <div className="dayofweek">Mon</div>
                 <div className="dayofweek">Tue</div>
@@ -482,7 +539,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         
             </div>
              )}
-              {showmonth && (
+              {showmonth && !showyears && (
               <div className="monthsdiv"> 
                 <div className="monthdiv" id="1" onClick={(event) => { event.stopPropagation();  changemonthclick(1)}}>January</div>
                 <div className="monthdiv" id="2" onClick={(event) => { event.stopPropagation();  changemonthclick(2)}}>February</div>
@@ -500,6 +557,16 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                </div>
             ) 
             }
+            {showyears && !showmonth &&(
+           
+            <div className='yeardiv'>
+              {yearsArray && yearsArray.map((year, index) => (
+                
+                <div key={index} className={`yeardivitem ${year === yearfordisplay ? 'activeyear' : ''}`}> {year} </div>
+              ))}
+           
+            </div>
+               )   }
             </div>
            
            
