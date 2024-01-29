@@ -14,11 +14,14 @@ function App() {
 
   //; CALLBACK FUNCTI
   const handleDateChange = (newdate) => {
-    
+    console.log('newdate in handleDateChange', newdate)
+    console.log(typeof newdate, 'typeof newdate')
     if(typeof newdate === 'object'){
       console.log('newdate is object');
+      alert('newdate is object')
       //setSelecteddate(newdate);
-      setSelecteddatesMulti(prevState => [...prevState, newdate]);
+      //setSelecteddatesMulti(prevState => [...prevState, newdate]);
+      setSelecteddatesMulti(newdate);
   }
   else {
     console.log(newdate, 'newdate in handleDateChange');
@@ -27,16 +30,14 @@ function App() {
   }
 }
 
-  
+
   return (
-    <>
-  <Datepicker  ref={dayPickerRef} onDateChange={handleDateChange} 
-    dateprop={
-      singlemultiple == 'multiple' ? selecteddatesMulti : selecteddate
-    }
-     multiple={singlemultiple}
-       
-        />
+    <>{/*  ref={dayPickerRef}  */}
+  <Datepicker onDateChange={handleDateChange} 
+    dateprop={singlemultiple == 'yes' ? selecteddatesMulti : selecteddate}
+     multiple={'yes'}
+    
+       />
      </>
   )
 }

@@ -248,6 +248,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
 
     //if prop multiiple..
     if(multipleprop === 'yes') {
+     
       //if it exists remove it 
      /*  if(selectedateArray.find(item => item == newdate)) {
         let newarray = selectedateArray.filter(item => item !== newdate);
@@ -270,10 +271,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         let dateparam = new Date(newdate);
         console.log(dateparam, 'dateparam')
         setSelecteddate2(newdate);
-    }
-    
-      
-        
+    }        
     }
    
     //; ===========================================================
@@ -413,6 +411,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     //| -----------------------------------------------------------
     return (
             <>
+         
              <p className="read-the-docs">
             Click on the Vite and React logos to learn more
             </p>
@@ -457,7 +456,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
              
             {isOpen &&  (
             <dialog open ref={dialogref}  >   {/*  ref={ref} */}
-                <button onClick={() => setIsOpen(false)} autoFocus>Close</button>
+            <button onClick={() => setIsOpen(false)} autoFocus>Close</button>
             
             {/*  dateprop={datepropDatepicker} */}
             <div className="mydaypickerwrapper"   >
@@ -506,6 +505,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                     if(multipleprop === 'yes') {
                       //first check if it exists in the array already
                       if(multipledatearray.find(item => item == day.datetxt)) {
+                        
                         //remove it
                         console.log('exists')
                         let newarray = multipledatearray.filter(item => item !== day.datetxt);
@@ -518,7 +518,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                       console.log(typeof day.datetxt, 'day.datetxt typeof')
                       setMultipledatearray([...multipledatearray, day.datetxt]);
                       // changeDateCallback(multipledatearray);
-                      changeDateCallback(day.datetxt);
+                      changeDateCallback([...multipledatearray, day.datetxt]);
                       changedateLocal(day.datetxt); 
 
                       }
@@ -589,7 +589,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     { selectedateArray}
             </dialog>
       )}
-          
+        
 
             </>
         
