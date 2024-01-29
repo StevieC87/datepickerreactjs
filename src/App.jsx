@@ -6,7 +6,6 @@ import './datepicker/Datepicker.css'
 import './scss/styles.scss';
 function App() {
 
-  const dayPickerRef = useRef();
 
   const [singlemultiple, setSinglemultiple] = useState('yes'); //or empty string for single date selection
   const[selecteddate, setSelecteddate] = useState('');
@@ -18,13 +17,13 @@ function App() {
     console.log(typeof newdate, 'typeof newdate')
     if(typeof newdate === 'object'){
       console.log('newdate is object');
-      alert('newdate is object')
+    //  alert('newdate is object')
       //setSelecteddate(newdate);
       //setSelecteddatesMulti(prevState => [...prevState, newdate]);
       setSelecteddatesMulti(newdate);
   }
   else {
-    alert('newdate is string');
+  //  alert('newdate is string');
     console.log(newdate, 'newdate in handleDateChange');
     //setDatepropDatepicker(newdate);
     setSelecteddate(newdate);

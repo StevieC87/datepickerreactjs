@@ -55,11 +55,17 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     // FOR THE MONTHS CHANGE
     const[showmonth, setShowmonth] = useState(false);
   
-    
-    
+    const[actuallytoday, setActuallytoday] = useState('');
+   
     //; =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     //. ON TODAYS DATE CHANGE -> 
     //; ===========================================================
+    useEffect(() => {
+      let todaydatex = new Date(); //example: 2021-05-05T10:00:00.000Z
+      let todayx = todaydatex.toISOString().slice(0, 10); 
+      setActuallytoday(todayx);
+    })
+    
     useEffect(() => {
         let monthfromdate1;
         let yearfromdate1;
@@ -68,6 +74,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         let getdaynameV;
         let dateprop;
         let datetouse;
+       
       if(datepropstate) {
         console.log('datepropstate', datepropstate)
         datetouse = datepropstate;
@@ -102,6 +109,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         else if (!selecteddate2) {
        let todaydate1 = new Date(); //example: 2021-05-05T10:00:00.000Z
        let todaydateforsure = todaydate1.toISOString().slice(0, 10); // example: 2021-05-05
+
     
         console.log(todaydateforsure, 'todaydateforsurexx');
         datetouse = todaydateforsure;
@@ -283,7 +291,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     }   
 
     const closedialog = (newstate) => {
-        setIsOpen(newstate);
+        setIsOpen(newstate);``
       
     }
     //; ===========================================================
@@ -405,9 +413,10 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         setYearfordisplay(selectedyear);
         setShowYears(false);
       }
+    
       //her eto decide whether chevrons change month or year
       //have two chevrons, one for month, one for year
-
+      
     //| -----------------------------------------------------------
     return (
             <>
@@ -455,8 +464,8 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
              </div>            
              
             {isOpen &&  (
-            <dialog open ref={dialogref}  >   {/*  ref={ref} */}
-            <button onClick={() => setIsOpen(false)} autoFocus>Close</button>
+            <dialog className="dialog" open ref={dialogref}  >   {/*  ref={ref} */}
+           {/*  <button onClick={() => setIsOpen(false)} autoFocus>Close</button> */}
             
             {/*  dateprop={datepropDatepicker} */}
             <div className="mydaypickerwrapper"   >
@@ -503,10 +512,10 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                 onClick={() => {
 
                     if(multipleprop === 'yes') {
-                      alert('clicked')
+                      //alert('clicked')
                       //first check if it exists in the array already
                       if(multipledatearray.find(item => item == day.datetxt)) {
-                        alert('exists')
+                     //   alert('exists')
                         //remove it
                         console.log('exists')
                         let newarray = multipledatearray.filter(item => item !== day.datetxt);
@@ -547,11 +556,14 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                 } }
                     
                     
-                className={`dpdatebox ${day.monthname !== monthname ? 'grey' : ''} ${selecteddate2 === day.datetxt ? 'activedatebadge' : ''} ${multipledatearray &&
+                className={`dpdatebox ${day.monthname !== monthname ? 'grey' : ''} ${selecteddate2 === day.datetxt ? 'activedatebadge' : ''} ${day.datetxt ===  actuallytoday ? 'todaycss' : ''} ${multipledatearray &&
                    multipledatearray.find(item => item == day.datetxt) ? 'activedatebadge' : ''} `}
                 
                 data-date={day.datetxt} data-monthname={day.monthname} data-monthnumber={day.monthnumber} /* data-dayname={day.dayname} data-dayofweek={day.dayofweek} data-dayofweeknumber={day.dayofweeknumber} data-year={day.year} data-day={day.day} data-month={day.month} */
-                >
+                tabIndex={0}
+               /*   onKeyDown={(event) => handleKeyDown(event, index)}
+  */
+               >
                     {day.datetxt.split('-')[2]}
                   
                     </div>
@@ -591,16 +603,6 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
             </div>
                )   }
             </div>
-           
-           
-            
-            <span> multiple: {multipleprop}</span>
-            { multipledatearray && multipledatearray.map((date, index) => (
-              
-              <div key={index}>{date}a</div>
-            
-    ))}
-    { selectedateArray}
             </dialog>
       )}
         

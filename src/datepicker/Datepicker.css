@@ -24,7 +24,7 @@
 .mydatepickergrid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    border: 1px solid black;
+    border: 0px solid black;
     text-align: center;
 }
 
@@ -35,6 +35,23 @@
 .redlabel {
     color: red;
 }
+
+
+
+.dialog {
+    border: 1px solid gray ;
+    padding: 0;
+}
+
+
+
+.todaycss {
+    border: 1px solid lightblue;
+}
+
+
+
+
 .activedatebadge {
 color: #212529;
   
