@@ -503,22 +503,36 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                 onClick={() => {
 
                     if(multipleprop === 'yes') {
+                      alert('clicked')
                       //first check if it exists in the array already
                       if(multipledatearray.find(item => item == day.datetxt)) {
-                        
+                        alert('exists')
                         //remove it
                         console.log('exists')
                         let newarray = multipledatearray.filter(item => item !== day.datetxt);
                         setMultipledatearray(newarray);
                         setSelecteddateArray(newarray);
+                        changeDateCallback(newarray);
                       }
                       else {
                       //ADD IT 
+                     
+                      // changeDateCallback([...multipledatearray, day.datetxt]);
+                      //IF DATE EXISTS IN ARRAY - REMOVE IT 
+                   /*    if(multipledatearray.find(item => item == day.datetxt)) {
+                        alert('date exists')
+                        console.log('exists')
+                        let newarray = multipledatearray.filter(item => item !== day.datetxt);
+                        setMultipledatearray(newarray);
+                        setSelecteddateArray(newarray);
+                        changeDateCallback(newarray);
+
+                      } */
                       console.log('multiple')
                       console.log(typeof day.datetxt, 'day.datetxt typeof')
                       setMultipledatearray([...multipledatearray, day.datetxt]);
-                      // changeDateCallback(multipledatearray);
-                      changeDateCallback([...multipledatearray, day.datetxt]);
+                      setSelecteddateArray([...multipledatearray, day.datetxt]);
+                     changeDateCallback([...multipledatearray, day.datetxt]);
                       changedateLocal(day.datetxt); 
 
                       }

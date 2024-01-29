@@ -24,6 +24,7 @@ function App() {
       setSelecteddatesMulti(newdate);
   }
   else {
+    alert('newdate is string');
     console.log(newdate, 'newdate in handleDateChange');
     //setDatepropDatepicker(newdate);
     setSelecteddate(newdate);
