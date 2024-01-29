@@ -485,7 +485,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                     </div>
                     
                     {!showyears && (
-                        <div className="chevronsdp chevrondpright" onClick={() => changemonth(monthfordisplay, 'next')}>
+                        <div className="chevronsdp chevrondpright" onClick={() => changemonth(monthfordisplay, 'next',  yearfordisplay)}>
                           <i className="bi bi-chevron-right"></i>
                         </div>
                     )}
