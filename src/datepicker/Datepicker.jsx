@@ -525,32 +525,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     let datePattern =  /^\d{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[0-1])$/;
     validORnot = datePattern.test(date);
     return validORnot;
-   /*  if(formata === 'DDMMYYYY') {
-      alert(format)
-      // let datePattern = /^([0-2][0-9]|(3)[0-1])(-)(((0)[0-9])|((1)[0-2]))(-)\d{4}$/;
-      let datePattern = /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(\d{4})$/;
-      console.log(date,'date0000000000000000')
-      validORnot = datePattern.test(date);
-      //console.log(validORnot, 'validORnot')
-      //returns TRUE if matches pattern
-      return validORnot;
-    }
-    else if(formata === 'YYYYMMDD') {
-      let datePattern = /^(((0)[0-9])|((1)[0-2]))(-)([0-2][0-9]|(3)[0-1])(-)\d{4}$/;
-      validORnot = datePattern.test(date);
-      return validORnot;
-    }
-    else if(formata === 'MMDDYYYY') {
-      let datePattern = /^\d{4}(-)(((0)[0-9])|((1)[0-2]))(-)([0-2][0-9]|(3)[0-1])$/;
-      validORnot = datePattern.test(date);
-      return validORnot;
-    }
-      if(validORnot) {
-        return true;
-      }
-      else {
-        return false;
-      } */
+  
   }
   const validatedateArray = (datearray) => {
     //split array on comma,
@@ -604,8 +579,8 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                 name="datepicker"
                 id="datepickerinput" 
                 value={
-                 selectedateArray && selectedateArray.length > 0 ? convertYMD2DMYarray(selectedateArray) : selecteddate2 
-                /* convertYMD2DMY(selecteddate2)   */
+                 selectedateArray && selectedateArray.length > 0 ? selectedateArray : selecteddate2 
+                /* convertYMD2DMY(selecteddate2) convertYMD2DMYarray(selectedateArray)   */
                 } 
                 aria-label="Datepicker"   onClick={() => setIsOpen(true)} 
                 /* onChange={{testFunction} */
@@ -613,8 +588,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                  let proceed = false;
                 if (selectedateArray && selectedateArray.length > 0) {
                       //validate dates before setting them - OTHERWISE BUGGY if date not finished
-                    let validateArraynow =  validatedateArray(e.target.value);
-                    if(validateArraynow) {
+           
                       proceed = true;
                       // MAYBE HAVE TO CONVERT DATE HERE DUNNO TEST
                       let valueinput = dateinputref.current.value;
@@ -626,7 +600,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                       setSelecteddateArray([valueinput]);
                       setMultipledatearray(valueinputarray);
 
-                    }
+                
                 }
                 else {
                // alert('changed')
