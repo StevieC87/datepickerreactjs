@@ -7,7 +7,7 @@ import './scss/styles.scss';
 function App() {
 
 
-  const [singlemultiple, setSinglemultiple] = useState('yes'); //or empty string for single date selection
+  const [multiple, setMultiple] = useState(''); //yeor empty string for single date selection
   const[selecteddate, setSelecteddate] = useState('');
   const[selecteddatesMulti, setSelecteddatesMulti] = useState([]);
 
@@ -34,9 +34,8 @@ function App() {
   return (
     <>{/*  ref={dayPickerRef}  */}
   <Datepicker onDateChange={handleDateChange} 
-    dateprop={singlemultiple == 'yes' ? selecteddatesMulti : selecteddate}
-     multiple={'yes'}
-    
+     dateprop={multiple == 'yes' ? selecteddatesMulti : selecteddate}
+     multiple={multiple} format="DDMMYYYY"
        />
      </>
   )

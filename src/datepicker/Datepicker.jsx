@@ -12,7 +12,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
       const[selectedateArray, setSelecteddateArray] = useState([]);
         const dayPickerRef = useRef();
 
-        const {dateprop, onDateChange, closedialogCallback, multiple} = props;
+        const {dateprop, onDateChange, closedialogCallback, multiple, format} = props;
        
         const [isOpen, setIsOpen] = useState(false);
         const[datepropDatepicker, setDatepropDatepicker] = useState('');
@@ -34,7 +34,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     const[monthfromdate, setMonthfromdate] = useState('');
     const[yearfromdate, setYearfromdate] = useState(0);
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
+    const[formata, setFormat] = useState(format);
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     //STATES WE SET FROM DATE / MONTH / YEAR
     const[monthnumber, setMonthnumber] = useState('');
@@ -64,7 +64,10 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
       let todaydatex = new Date(); //example: 2021-05-05T10:00:00.000Z
       let todayx = todaydatex.toISOString().slice(0, 10); 
       setActuallytoday(todayx);
-    })
+     
+    }, [])
+
+   
     
     useEffect(() => {
         let monthfromdate1;
@@ -104,9 +107,23 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
        console.warn('no datepropstate')
        if (selecteddate2) {
         console.log('selecteddate2HEREHERE', selecteddate2)
-        datetouse = selecteddate2;
+        let unformatdate = '';
+        if (format === 'DDMMYYYY') {
+          console.log('HEREYO')
+           unformatdate =  convertDMY2YMD(selecteddate2)
+          console.log(unformatdate, 'unformatdate')
+        }
+        else if(format === 'YYYYMMDD') {
+           unformatdate = selecteddate2;
+        
+        }
+        else if(format === 'MMDDYYYY') {
+           unformatdate = convertMDY2YMD(selecteddate2);
+        }   
+
+        datetouse = unformatdate;
       }
-        else if (!selecteddate2) {
+        else  if (!selecteddate2) {
        let todaydate1 = new Date(); //example: 2021-05-05T10:00:00.000Z
        let todaydateforsure = todaydate1.toISOString().slice(0, 10); // example: 2021-05-05
 
@@ -116,7 +133,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         }
        // changeDateCallback(todaydateforsure)
       }
-        //-= Related to DATE prop  -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+     
         console.log('initial date', datetouse)
         //|get month and year from date
         monthfromdate1 = datetouse.slice(5, 7); //e.g. 07d
@@ -278,7 +295,11 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         console.log(typeof newdate, 'newdate in changedateLocal')
         let dateparam = new Date(newdate);
         console.log(dateparam, 'dateparam')
-        setSelecteddate2(newdate);
+        //set date TO FORMAT WE WANT
+        let converteddatenow = convertFormat(newdate);
+          console.log(converteddatenow, 'converteddatenow1111111')
+  // setSelecteddate2(newdate);
+       setSelecteddate2(converteddatenow);
     }        
     }
    
@@ -413,7 +434,155 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         setYearfordisplay(selectedyear);
         setShowYears(false);
       }
+    const convertYMD2DMY = (date) => { 
+      //convert to dd-mm-yyyy
+      if(date) {
+        let datearray = date.split('-');
+      let year = datearray[0];
+      let month = datearray[1];
+      let day = datearray[2];
+      let newdate = `${day}-${month}-${year}`;
+      return newdate;
+      }
+      else {
+        return '';
+      }
+      
+    }
+    const convertDMY2YMD = (date) => {
+      //convert to yyyy-mm-dd
+      if(date) {
+        let datearray = date.split('-');
+        let day = datearray[0];
+        let month = datearray[1];
+        let year = datearray[2];
+        let newdate = `${year}-${month}-${day}`;
+        return newdate;
+      }
+      else {
+        return '';
+      }
+   
+    }
+    const convertMDY2YMD = (date) => {
+        if(date) {
+            let datearray = date.split('-');
+            let month = datearray[0];
+            let day = datearray[1];
+            let year = datearray[2];
+            let newdate = `${year}-${month}-${day}`;
+            return newdate;
+          }
+          else {
+            return '';
+          }
+     
+    }
     
+  const convertYMD2DMYarray = (datearray) => {  //date is string,  return string
+    //convert to dd-mm-yyyy
+    if(
+      datearray.length > 0
+    ) {
+      let count = datearray.length;
+      let newdatearray = [];
+
+      for(let i = 0; i < count; i++) {
+        let date = datearray[i];
+        let converted = convertYMD2DMY(date);
+        newdatearray.push(converted);
+      }
+      return newdatearray;
+    }
+    else {
+      return '';
+    }
+  }
+
+  //MAYBE DETECT DATE 
+  //ENFORCE DATE VALIDATION 
+  //WHEN CHANGE DATE - DONT DO ANYTHING , UNTIL DATE IS VALID 
+
+  const convertFormat = (date) => {
+    let formatis = formata;
+
+    if(formata === 'DDMMYYYY') {
+      return convertDMY2YMD(date)
+    }
+    else if(formata === 'YYYYMMDD') {
+      return(date)
+
+    }
+    else if (formata === 'MMDDYYYY') {
+
+    }
+  }
+
+  const validatedate = (date) => { 
+    
+    let validORnot;
+  //  let datePattern = /^(((0)[0-9])|((1)[0-2]))(-)([0-2][0-9]|(3)[0-1])(-)\d{4}$/;
+    let datePattern =  /^\d{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[0-1])$/;
+    validORnot = datePattern.test(date);
+    return validORnot;
+   /*  if(formata === 'DDMMYYYY') {
+      alert(format)
+      // let datePattern = /^([0-2][0-9]|(3)[0-1])(-)(((0)[0-9])|((1)[0-2]))(-)\d{4}$/;
+      let datePattern = /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(\d{4})$/;
+      console.log(date,'date0000000000000000')
+      validORnot = datePattern.test(date);
+      //console.log(validORnot, 'validORnot')
+      //returns TRUE if matches pattern
+      return validORnot;
+    }
+    else if(formata === 'YYYYMMDD') {
+      let datePattern = /^(((0)[0-9])|((1)[0-2]))(-)([0-2][0-9]|(3)[0-1])(-)\d{4}$/;
+      validORnot = datePattern.test(date);
+      return validORnot;
+    }
+    else if(formata === 'MMDDYYYY') {
+      let datePattern = /^\d{4}(-)(((0)[0-9])|((1)[0-2]))(-)([0-2][0-9]|(3)[0-1])$/;
+      validORnot = datePattern.test(date);
+      return validORnot;
+    }
+      if(validORnot) {
+        return true;
+      }
+      else {
+        return false;
+      } */
+  }
+  const validatedateArray = (datearray) => {
+    //split array on comma,
+    let checkifvalidonitsown = validatedate(datearray);
+    if(checkifvalidonitsown) {
+      return true;
+    }
+    else {  
+      //split see IF DATES ARE VALID INSIDE 
+      let split = datearray.split(',');
+      let countsplit = split.length;
+      let validcount = 0;
+      if(countsplit > 0) {
+        for(let i = 0; i < countsplit; i++) {
+          let date = split[i];
+          let dateisvalid = validatedate(date);
+          if(dateisvalid) {
+            validcount++;
+          }
+        }
+        if(validcount === countsplit) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+     
+    }
+
+  }
+
       //her eto decide whether chevrons change month or year
       //have two chevrons, one for month, one for year
       
@@ -426,36 +595,59 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
             </p>
             {/*  value={datepropDatepicker}  */}
             <div className="datepickerformgroupdiv"  onClick={() => setIsOpen(true)}>
-              <input 
+              <input
+              //placehodler maybe convert today's date 
+              
                 ref={dateinputref}
                 className="form-control datepinput" 
                 type="text" 
                 name="datepicker"
                 id="datepickerinput" 
                 value={
-                 selectedateArray && selectedateArray.length > 0 ? selectedateArray : selecteddate2
+                 selectedateArray && selectedateArray.length > 0 ? convertYMD2DMYarray(selectedateArray) : selecteddate2 
+                /* convertYMD2DMY(selecteddate2)   */
                 } 
                 aria-label="Datepicker"   onClick={() => setIsOpen(true)} 
                 /* onChange={{testFunction} */
                 onChange={e => {
-                  if (selectedateArray && selectedateArray.length > 0) {
-                    //TODO THIS IS WHAT WE'RE WORKING ON HERE 
-                    // If selectedateArray is not empty, update it
-                    let valueinput = dateinputref.current.value;
-                    let valueinputarray = valueinput.split(',');
-                    console.log(valueinputarray, 'valueinputarray')
-                    //back to string with the comma 
-                
-                    console.log(valueinput, 'valueinput')
-                  setSelecteddateArray([valueinput]);
-                  setMultipledatearray(valueinputarray);
-                //   changeDateCallback(day.datetxt);
-                  } else {
-                    // Otherwise, update selecteddate2
-                    setSelecteddate2(e.target.value);
-                  }
+                 let proceed = false;
+                if (selectedateArray && selectedateArray.length > 0) {
+                      //validate dates before setting them - OTHERWISE BUGGY if date not finished
+                    let validateArraynow =  validatedateArray(e.target.value);
+                    if(validateArraynow) {
+                      proceed = true;
+                      // MAYBE HAVE TO CONVERT DATE HERE DUNNO TEST
+                      let valueinput = dateinputref.current.value;
+                      let valueinputarray = valueinput.split(',');
+                      console.log(valueinputarray, 'valueinputarray')
+                      //back to string with the comma 
+                  
+                      console.log(valueinput, 'valueinput')
+                      setSelecteddateArray([valueinput]);
+                      setMultipledatearray(valueinputarray);
+
+                    }
                 }
-              }
+                else {
+               // alert('changed')
+                  // Otherwise, update selecteddate2
+                  //convert date to yyymmdd from ddmmyyyy 
+                  // let converteddate = convertDMY2YMD(e.target.value);
+                   let validdateis = validatedate(e.target.value)
+                   console.log(validdateis, 'validdateis')
+               //   if(validdateis) {
+               //     alert('valid')
+                    proceed = true;
+                    setSelecteddate2(e.target.value);
+               //   }
+               //   else if (!validdateis) {
+                //    alert('not valid')
+             //     }
+                  //PUT THSI STUFF IN A USE EFFECT MAYBE - INSTEAD OF A CHANGE. WHEN I CLICK AND THE DATE CHANGES, IT DOESNT TRIGGER AN ONCHANGE ON THE INPUT APPARENTLY
+            }
+          } 
+
+                }
             />
             <i id="calendaricon" className="bi bi-calendar4-week inputicon" ></i>
 
@@ -551,8 +743,6 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                       closedialog(false);
                       changedateLocal(day.datetxt); 
                     }
-
-                  
                 } }
                     
                     
@@ -560,7 +750,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                    multipledatearray.find(item => item == day.datetxt) ? 'activedatebadge' : ''} `}
                 
                 data-date={day.datetxt} data-monthname={day.monthname} data-monthnumber={day.monthnumber} /* data-dayname={day.dayname} data-dayofweek={day.dayofweek} data-dayofweeknumber={day.dayofweeknumber} data-year={day.year} data-day={day.day} data-month={day.month} */
-                tabIndex={0}
+              /*   tabIndex={0} */
                /*   onKeyDown={(event) => handleKeyDown(event, index)}
   */
                >
@@ -615,5 +805,5 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     })
 
     Datepicker.displayName = 'Mydaypicker2';
-export default Datepicker;
+    export default Datepicker;
 /*   onClick={() => dispatch(setDateFordaypicker(day.datetxt))} */

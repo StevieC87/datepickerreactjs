@@ -1,3 +1,5 @@
+
+
 .form-control {
     display: block;
     width: 100%;
@@ -34,6 +36,13 @@
 
 .redlabel {
     color: red;
+}
+
+
+.dayofweek {
+    font-weight: 500;
+    padding: 0px;
+    color: black;
 }
 
 
