@@ -285,9 +285,13 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         console.log('exists')
         let newarray = selectedateArray.filter(item => item !== newdate);
         setSelecteddateArray(newarray);
-                      }
+    }
       else {
-        setSelecteddateArray([...selectedateArray, newdate]);
+      //  let convertedArrayformat = convertFormatArray(selectedateArray);
+      //  console.log(convertedArrayformat, 'convertedArrayformat')
+       //   s
+  //    setSelecteddateArray([...convertedArrayformat, newdate]);
+  setSelecteddateArray([...selectedateArray, newdate]);
       }
     }
     else {
@@ -306,6 +310,8 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     //; ===========================================================
     //. CHANGE DATE ON CLICK CALLBACK
     const changeDateCallback = (newdate) => {
+        console.log(newdate,'newdate4444444444')
+        console.log(typeof newdate,'newdate4444444444 typeof')
         onDateChange(newdate);
       
         console.log(newdate, 'newdate in changeDateCallback')
@@ -480,7 +486,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
      
     }
     
-  const convertYMD2DMYarray = (datearray) => {  //date is string,  return string
+const convertYMD2DMYarray = (datearray) => {  //date is string,  return string
     //convert to dd-mm-yyyy
     if(
       datearray.length > 0
@@ -500,6 +506,60 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     }
   }
 
+const convertDMY2YMDarray = (datearray) => {  //date is string,  return string
+  //convert to dd-mm-yyyy
+  if(
+    datearray.length > 0
+  ) {
+    let count = datearray.length;
+    let newdatearray = [];
+
+    for(let i = 0; i < count; i++) {
+      let date = datearray[i];
+      let converted = convertDMY2YMD(date);
+      newdatearray.push(converted);
+    }
+    return newdatearray;
+  }
+  else {
+    return '';
+  }
+}
+
+const convertMDY2YMDarray = (datearray) => {  //date is string,  return string
+
+  //convert to dd-mm-yyyy
+  if( 
+    datearray.length > 0
+  ) {
+    let count = datearray.length;
+    let newdatearray = [];
+
+    for(let i = 0; i < count; i++) {
+      let date = datearray[i];
+      let converted = convertMDY2YMD(date);
+      newdatearray.push(converted);
+    }
+    return newdatearray;
+  }
+  else {
+    return '';
+  }
+}
+
+const convertFormatArray = (datearray) => {
+  let formatis = formata;
+  if(formata === 'DDMMYYYY') {
+    return convertDMY2YMDarray(datearray)
+  }
+  else if(formata === 'YYYYMMDD') {
+    return(datearray)
+
+  }
+  else if (formata === 'MMDDYYYY') {
+    return convertMDY2YMDarray(datearray)
+  }
+}
   //MAYBE DETECT DATE 
   //ENFORCE DATE VALIDATION 
   //WHEN CHANGE DATE - DONT DO ANYTHING , UNTIL DATE IS VALID 
@@ -677,7 +737,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                 <div 
                 key={day.datetxt}
                 onClick={() => {
-
+                  console.log(allweeksdates,'allweeksdates123123')
                     if(multipleprop === 'yes') {
                       //alert('clicked')
                       //first check if it exists in the array already
@@ -691,25 +751,19 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                         changeDateCallback(newarray);
                       }
                       else {
-                      //ADD IT 
-                     
-                      // changeDateCallback([...multipledatearray, day.datetxt]);
-                      //IF DATE EXISTS IN ARRAY - REMOVE IT 
-                   /*    if(multipledatearray.find(item => item == day.datetxt)) {
-                        alert('date exists')
-                        console.log('exists')
-                        let newarray = multipledatearray.filter(item => item !== day.datetxt);
-                        setMultipledatearray(newarray);
-                        setSelecteddateArray(newarray);
-                        changeDateCallback(newarray);
-
-                      } */
+                  
                       console.log('multiple')
                       console.log(typeof day.datetxt, 'day.datetxt typeof')
-                      setMultipledatearray([...multipledatearray, day.datetxt]);
-                      setSelecteddateArray([...multipledatearray, day.datetxt]);
-                     changeDateCallback([...multipledatearray, day.datetxt]);
-                      changedateLocal(day.datetxt); 
+                      console.log(day.datetxt, 'day.datetxtsssssss')
+                      
+                      //convert array 
+                     // let convertedArrayformat = convertFormatArray(multipledatearray);
+                    //  console.log(convertedArrayformat, 'convertedArrayformat')
+
+                      setMultipledatearray([...multipledatearray, convertFormat(day.datetxt)]);
+                      setSelecteddateArray([...multipledatearray, convertFormat(day.datetxt)]);
+                      changeDateCallback([...multipledatearray, convertFormat(day.datetxt)]);
+                      changedateLocal(convertFormat(day.datetxt)); 
 
                       }
                     }
