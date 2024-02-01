@@ -775,16 +775,16 @@ const convertFormatArray = (datearray) => {
                 } }
                     
                     
-                className={`dpdatebox ${day.monthname !== monthname ? 'grey' : ''} ${selecteddate2 === convertFormat(day.datetxt) ? 'activedatebadge' : ''} ${day.datetxt ===  actuallytoday ? 'todaycss' : ''} ${multipledatearray &&
-                   multipledatearray.find(item => item == day.datetxt) ? 'activedatebadge' : ''} `}
+                className={`dpdatebox ${day.monthname !== monthname ? 'grey' : ''} ${selecteddate2 === convertFormat(day.datetxt) ? 'activedatebadge' : ''} ${day.datetxt ===  actuallytoday ? 'todaycss' : ''} ${selectedateArray &&
+                  selectedateArray.find(item => item == convertFormat(day.datetxt)) ? 'activedatebadge' : ''} `}
                 
                 data-date={convertFormat(day.datetxt)} data-monthname={day.monthname} data-monthnumber={day.monthnumber} /* data-dayname={day.dayname} data-dayofweek={day.dayofweek} data-dayofweeknumber={day.dayofweeknumber} data-year={day.year} data-day={day.day} data-month={day.month} */
               /*   tabIndex={0} */
                /*   onKeyDown={(event) => handleKeyDown(event, index)}
   */
                >
-                    {day.datetxt.split('-')[2]}
-                  
+                 {day.datetxt.split('-')[2]}
+                   
                     </div>
                 ))}
         
