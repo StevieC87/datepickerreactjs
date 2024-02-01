@@ -49,7 +49,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     const[yearfordisplay, setYearfordisplay] = useState(0); //not sure about this
 
     const[multipleprop,setMultipleprop] = useState(multiple);
-    const[multipledatearray, setMultipledatearray] = useState([]);
+   // const[multipledatearray, setMultipledatearray] = useState([]);
     const[datepropPassed, setDatepropPassed] = useState(false);
     
     // FOR THE MONTHS CHANGE
@@ -291,7 +291,8 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
       //  console.log(convertedArrayformat, 'convertedArrayformat')
        //   s
   //    setSelecteddateArray([...convertedArrayformat, newdate]);
-  setSelecteddateArray([...selectedateArray, newdate]);
+      
+        setSelecteddateArray([...selectedateArray, newdate]);
       }
     }
     else {
@@ -310,7 +311,8 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     //; ===========================================================
     //. CHANGE DATE ON CLICK CALLBACK
     const changeDateCallback = (newdate) => {
-        console.log(newdate,'newdate4444444444')
+      
+      console.log(newdate,'newdate4444444444')
         console.log(typeof newdate,'newdate4444444444 typeof')
         onDateChange(newdate);
       
@@ -635,7 +637,7 @@ const convertFormatArray = (datearray) => {
               //placehodler maybe convert today's date 
               
                 ref={dateinputref}
-                className="form-control datepinput" 
+                className="datepicker-input datepinput" 
                 type="text" 
                 name="datepicker"
                 id="datepickerinput" 
@@ -649,7 +651,7 @@ const convertFormatArray = (datearray) => {
                  let proceed = false;
                 if (selectedateArray && selectedateArray.length > 0) {
                       //validate dates before setting them - OTHERWISE BUGGY if date not finished
-           
+                  //alert('arry changed')
                       proceed = true;
                       // MAYBE HAVE TO CONVERT DATE HERE DUNNO TEST
                       let valueinput = dateinputref.current.value;
@@ -658,8 +660,9 @@ const convertFormatArray = (datearray) => {
                       //back to string with the comma 
                   
                       console.log(valueinput, 'valueinput')
-                      setSelecteddateArray([valueinput]);
-                      setMultipledatearray(valueinputarray);
+                     // setSelecteddateArray([valueinput]);
+                     setSelecteddateArray(valueinputarray);
+                  //  setMultipledatearray(valueinputarray);
 
                 
                 }
@@ -741,12 +744,12 @@ const convertFormatArray = (datearray) => {
                     if(multipleprop === 'yes') {
                       //alert('clicked')
                       //first check if it exists in the array already
-                      if(multipledatearray.find(item => item == day.datetxt)) {
+                      if(selectedateArray.find(item => item == day.datetxt)) {
                      //   alert('exists')
                         //remove it
                         console.log('exists')
                         let newarray = multipledatearray.filter(item => item !== day.datetxt);
-                        setMultipledatearray(newarray);
+                    //    setMultipledatearray(newarray);
                         setSelecteddateArray(newarray);
                         changeDateCallback(newarray);
                       }
@@ -760,9 +763,9 @@ const convertFormatArray = (datearray) => {
                      // let convertedArrayformat = convertFormatArray(multipledatearray);
                     //  console.log(convertedArrayformat, 'convertedArrayformat')
 
-                      setMultipledatearray([...multipledatearray, convertFormat(day.datetxt)]);
-                      setSelecteddateArray([...multipledatearray, convertFormat(day.datetxt)]);
-                      changeDateCallback([...multipledatearray, convertFormat(day.datetxt)]);
+                    //  setMultipledatearray([...multipledatearray, convertFormat(day.datetxt)]);
+                      setSelecteddateArray([...selectedateArray, convertFormat(day.datetxt)]);
+                      changeDateCallback([...selectedateArray, convertFormat(day.datetxt)]);
                       changedateLocal(convertFormat(day.datetxt)); 
 
                       }
