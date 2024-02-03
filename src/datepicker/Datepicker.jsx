@@ -114,7 +114,6 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
      
       }
       else if(!datepropstate) {
-       
        console.warn('no datepropstate')
        if (selecteddate2) {
         console.log('selecteddate2HEREHERE', selecteddate2)
@@ -129,7 +128,6 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         
         }
         else if(format === 'MMDDYYYY') {
-          alert('here')
            unformatdate = convertMDY2YMD(selecteddate2);
            console.log(unformatdate, 'unformatdate2')
         }   
@@ -382,6 +380,226 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         setYearfordisplay(selectedyear);
         setShowYears(false);
       }
+<<<<<<< HEAD
+=======
+    /* const convertYMD2DMY = (date) => { 
+      //convert to dd-mm-yyyy
+      if(date) {
+        let datearray = date.split('-');
+      let year = datearray[0];
+      let month = datearray[1];
+      let day = datearray[2];
+      let newdate = `${day}-${month}-${year}`;
+      return newdate;
+      }
+      else {
+        return '';
+      }
+      
+    }  */
+    //s
+    const convertYMD2DMY = (date) => {
+      if(date) {
+        let datearray = date.split('-');
+        let year = datearray[0];
+        let month = datearray[1];
+        let day = datearray[2];
+        let newdate = `${day}-${month}-${year}`;
+        return newdate;
+      }
+
+    }
+
+    const convertYMD2MDY = (date) => { 
+      if(date) {
+        let datearray = date.split('-');
+        let year = datearray[0];
+        let month = datearray[1];
+        let day = datearray[2];
+        let newdate = `${month}-${day}-${year}`;
+        return newdate;
+      }
+    }
+
+    const convertDMY2YMD = (date) => {
+      //convert to yyyy-mm-dd
+      if(date) {
+        let datearray = date.split('-');
+        let day = datearray[0];
+        let month = datearray[1];
+        let year = datearray[2];
+        let newdate = `${year}-${month}-${day}`;
+        return newdate;
+      }
+      else {
+        return '';
+      }
+   
+    }
+    const convertMDY2YMD = (date) => {
+        if(date) {
+            //alert(111)
+            let datearray = date.split('-');
+            let year = datearray[0];
+            let month = datearray[1];
+            let day = datearray[2];
+            
+            let newdate = `${year}-${month}-${day}`;
+           // alert(newdate, 'newdate')
+            return newdate;
+          }
+          else {
+            return '';
+          }
+
+    }
+/*DO NEXT   const convertYMD2DMYarray = (datearray) => {  //date is string,  return string 
+    //convert to dd-mm-yyyy
+    if(
+      datearray.length > 0
+    ) {
+      let count = datearray.length;
+      let newdatearray = [];
+
+      for(let i = 0; i < count; i++) {
+        let date = datearray[i];
+        let converted = convertYMD2DMY(date);
+        newdatearray.push(converted);
+      }
+      return newdatearray;
+    }
+    else {
+      return '';
+    }
+  }  */
+
+    
+/* const convertYMD2DMYarray = (datearray) => {  //date is string,  return string
+    //convert to dd-mm-yyyy
+    if(
+      datearray.length > 0
+    ) {
+      let count = datearray.length;
+      let newdatearray = [];
+
+      for(let i = 0; i < count; i++) {
+        let date = datearray[i];
+        let converted = convertYMD2DMY(date);
+        newdatearray.push(converted);
+      }
+      return newdatearray;
+    }
+    else {
+      return '';
+    }
+  } */
+
+const convertDMY2YMDarray = (datearray) => {  //date is string,  return string
+  //convert to dd-mm-yyyy
+  if(
+    datearray.length > 0
+  ) {
+    let count = datearray.length;
+    let newdatearray = [];
+
+    for(let i = 0; i < count; i++) {
+      let date = datearray[i];
+      let converted = convertDMY2YMD(date);
+      newdatearray.push(converted);
+    }
+    return newdatearray;
+  }
+  else {
+    return '';
+  }
+}
+
+const convertMDY2YMDarray = (datearray) => {  //date is string,  return string
+
+  //convert to dd-mm-yyyy
+  if( 
+    datearray.length > 0
+  ) {
+    let count = datearray.length;
+    let newdatearray = [];
+
+    for(let i = 0; i < count; i++) {
+      let date = datearray[i];
+      let converted = convertMDY2YMD(date);
+      newdatearray.push(converted);
+    }
+    return newdatearray;
+  }
+  else {
+    return '';
+  }
+}
+
+const convertFormatArray = (datearray) => {
+  let formatis = formata;
+  if(formata === 'DDMMYYYY') {
+    return convertDMY2YMDarray(datearray)
+  }
+  else if(formata === 'YYYYMMDD') {
+    return(datearray)
+
+  }
+  else if (formata === 'MMDDYYYY') {
+    return convertMDY2YMDarray(datearray)
+  }
+}
+  //MAYBE DETECT DATE 
+  //ENFORCE DATE VALIDATION 
+  //WHEN CHANGE DATE - DONT DO ANYTHING , UNTIL DATE IS VALID 
+
+  const convertFormat = (date) => {
+    let formatis = formata;
+
+    if(formata === 'DDMMYYYY') {
+      return convertYMD2DMY(date)
+      //return convertDMY2YMD(date)
+    }
+    else if(formata === 'YYYYMMDD') {
+      return(date)
+
+    }
+    else if (formata === 'MMDDYYYY') {
+      
+      return convertYMD2MDY(date)
+    }
+  }
+
+  const validatedate = (date) => { 
+    
+    let validORnot;
+  //  let datePattern = /^(((0)[0-9])|((1)[0-2]))(-)([0-2][0-9]|(3)[0-1])(-)\d{4}$/;
+    let datePattern =  /^\d{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[0-1])$/;
+    validORnot = datePattern.test(date);
+    return validORnot;
+  
+  }
+  const validatedateArray = (datearray) => {
+    //split array on comma,
+    let checkifvalidonitsown = validatedate(datearray);
+    if(checkifvalidonitsown) {
+      return true;
+    }
+    else {  
+      //split see IF DATES ARE VALID INSIDE 
+      let split = datearray.split(',');
+      let countsplit = split.length;
+      let validcount = 0;
+      if(countsplit > 0) {
+        for(let i = 0; i < countsplit; i++) {
+          let date = split[i];
+          let dateisvalid = validatedate(date);
+          if(dateisvalid) {
+            validcount++;
+          }
+        }
+        if(validcount === countsplit) {
+          return true;
+>>>>>>> parent of cba391a (ok)
         }
         else {
           setIsOpen(true);
