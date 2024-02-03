@@ -104,6 +104,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
      
       }
       else if(!datepropstate) {
+       
        console.warn('no datepropstate')
        if (selecteddate2) {
         console.log('selecteddate2HEREHERE', selecteddate2)
@@ -118,6 +119,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         
         }
         else if(format === 'MMDDYYYY') {
+          alert('here')
            unformatdate = convertMDY2YMD(selecteddate2);
            console.log(unformatdate, 'unformatdate2')
         }   
@@ -501,9 +503,11 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         if(date) {
             //alert(111)
             let datearray = date.split('-');
-            let year = datearray[0];
-            let month = datearray[1];
-            let day = datearray[2];
+            let month = datearray[0];
+            let day = datearray[1];
+            let year = datearray[2];
+            
+            
             
             let newdate = `${year}-${month}-${day}`;
            // alert(newdate, 'newdate')
