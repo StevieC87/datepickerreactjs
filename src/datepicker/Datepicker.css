@@ -17,11 +17,19 @@
     padding: 0.375rem 1.75rem 0.375rem 0.75rem
 }
 
+.datepickerinput:active {
+    border: 1px solid red !important;
+    outline: none;
+}
+.datepickerinput:focus {
+    border: 1px solid blue !important;
+    outline: none;
+}
 
 .mydaypickerwrapper {
     height: 200px;
     width: 300px;
-    border: 1px solid black;
+    border: 0px solid black;
 }
 
 .mydatepickergrid {
@@ -39,6 +47,13 @@
     color: red;
 }
 
+.dialogmodal {
+    position: fixed;  /* Position the dialog in the viewport */
+    top: 50%;        /* Position it 50% from the top */
+    left: 50%;       /* Position it 50% from the left */
+    transform: translate(-50%, -50%); /* Shift it back by half of its own width and height to center it */
+    /* Add other styles as needed */
+}
 
 .dayofweek {
     font-weight: 500;
@@ -47,10 +62,15 @@
 }
 
 
-
-.dialog {
-    border: 1px solid gray ;
+.dialogtagpopup {
+    border: 0px solid gray ;
     padding: 0;
+    max-width: 300px;
+    position: absolute;
+    background-color: white;
+    z-index: 1000;
+   
+
 }
 
 
@@ -82,19 +102,21 @@ display: inline-block;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    padding: 0px 5px;
+    padding: 0px 3px;
 }
 .chevronsdp {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     
     cursor: pointer;
 }
 .chevrondpleft{
     text-align: left;
+    margin-top: 3px;
 }
 .chevrondpright {
     text-align: right;
+    margin-top: 3px;
 }
 
 .monthnamedp {
@@ -116,12 +138,16 @@ display: inline-block;
    cursor: pointer; 
 }
 
-.datepinput {
-    padding-right: 30px;
+.datepickerwrapper {
+    display: grid;
+    
+    justify-items: center
 }
+
 .datepickerformgroupdiv {
     position: relative;
     display: inline-block;
+    width: 200px;
 }
 
 
@@ -172,4 +198,5 @@ display: inline-block;
 
 .bi-calendar4-week::before {
     background-color: white;
+    color: #8b959f;
 }
