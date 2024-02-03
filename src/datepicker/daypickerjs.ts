@@ -259,8 +259,119 @@ function getDateFromWeekNumber(year: number, weekNumber: number): Date {
     return januaryFirst;
 }
 
+export function convertYMD2DMY(date: string): string {
+    if(date) {
+        let datearray = date.split('-');
+      let year = datearray[0];
+      let month = datearray[1];
+      let day = datearray[2];
+      let newdate = `${day}-${month}-${year}`;
+      return newdate;
+      }
+      else {
+        return '';
+      }
+}
+export function convertDMY2YMD(date: string): string {
+    if(date) {
+        let datearray = date.split('-');
+        let day = datearray[0];
+        let month = datearray[1];
+        let year = datearray[2];
+        let newdate = `${year}-${month}-${day}`;
+        return newdate;
+      }
+      else {
+        return '';
+      }
+}
+export function convertMDY2YMD(date: string): string {
+    if(date) {
+        let datearray = date.split('-');
+        let month = datearray[0];
+        let day = datearray[1];
+        let year = datearray[2];
+        let newdate = `${year}-${month}-${day}`;
+        return newdate;
+      }
+      else {
+        return '';
+      }
+}
+
+export function convertDMY2YMDarray(datearray: string[]): string[] {
+    if(
+        datearray.length > 0
+      ) {
+        let count = datearray.length;
+        let newdatearray: string[] = [];
+
+        for(let i = 0; i < count; i++) {
+          let date = datearray[i];
+          let converted = convertDMY2YMD(date);
+          newdatearray.push(converted);
+        }
+        return newdatearray;
+      }
+      else {
+        return '';
+      }
+}
+
+export function convertMDY2YMDarray(datearray: string[]): string[] {
+    if( 
+        datearray.length > 0
+      ) {
+        let count = datearray.length;
+        let newdatearray = [];
+
+        for(let i = 0; i < count; i++) {
+          let date = datearray[i];
+          let converted = convertMDY2YMD(date);
+          newdatearray.push(converted);
+        }
+        return newdatearray;
+      }
+      else {
+        return '';
+      }
+}
+
+export function convertFormat(format: string, date: string): string {
+    if(date){  
+    if(format === 'DDMMYYYY') {
+          return convertDMY2YMD(date)
+        }
+    else if(format === 'YYYYMMDD') {
+        return(date)
+
+    }
+    else if (format === 'MMDDYYYY') {
+        return convertMDY2YMD(date)
+    }
+    } 
+}
+
+
+
+
+
+
 
 //OLD STUFF CRAP
+/* export function convertFormatArray(format:string, datearray: string[], format: string): string[] {
+    
+    if(format === 'DDMMYYYY') {
+      return convertDMY2YMDarray(datearray)
+    }
+    else if(format === 'YYYYMMDD') {
+      return(datearray)
+
+    }
+    else if (format === 'MMDDYYYY') {
+      return convertMDY2YMDarray(datearray)
+    }
+} */
 
 /* export function loopmonthdays(daysinmonth2: number, date2) {
     console.log(date2, 'date2 in loopmonthdays')
@@ -291,3 +402,35 @@ function getDateFromWeekNumber(year: number, weekNumber: number): Date {
     return array;
 
 } */
+
+
+/* UNUSED
+
+
+const convertYMD2DMYarray = (datearray) => {  //date is string,  return string
+          //convert to dd-mm-yyyy
+          if(
+            datearray.length > 0
+          ) {
+            let count = datearray.length;
+            let newdatearray = [];
+
+            for(let i = 0; i < count; i++) {
+              let date = datearray[i];
+              let converted = convertYMD2DMY(date);
+              newdatearray.push(converted);
+            }
+            return newdatearray;
+          }
+          else {
+            return '';
+          }
+        }*/
+
+        /* const validatedate = (date) => { 
+            let validORnot;
+          //  let datePattern = /^(((0)[0-9])|((1)[0-2]))(-)([0-2][0-9]|(3)[0-1])(-)\d{4}$/;
+            let datePattern =  /^\d{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[0-1])$/;
+            validORnot = datePattern.test(date);
+            return validORnot;
+          } */
