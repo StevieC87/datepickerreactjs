@@ -119,6 +119,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         }
         else if(format === 'MMDDYYYY') {
            unformatdate = convertMDY2YMD(selecteddate2);
+           console.log(unformatdate, 'unformatdate2')
         }   
 
         datetouse = unformatdate;
@@ -442,7 +443,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         setYearfordisplay(selectedyear);
         setShowYears(false);
       }
-    const convertYMD2DMY = (date) => { 
+    /* const convertYMD2DMY = (date) => { 
       //convert to dd-mm-yyyy
       if(date) {
         let datearray = date.split('-');
@@ -456,8 +457,31 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         return '';
       }
       
-    } 
+    }  */
     //s
+    const convertYMD2DMY = (date) => {
+      if(date) {
+        let datearray = date.split('-');
+        let year = datearray[0];
+        let month = datearray[1];
+        let day = datearray[2];
+        let newdate = `${day}-${month}-${year}`;
+        return newdate;
+      }
+
+    }
+
+    const convertYMD2MDY = (date) => { 
+      if(date) {
+        let datearray = date.split('-');
+        let year = datearray[0];
+        let month = datearray[1];
+        let day = datearray[2];
+        let newdate = `${month}-${day}-${year}`;
+        return newdate;
+      }
+    }
+
     const convertDMY2YMD = (date) => {
       //convert to yyyy-mm-dd
       if(date) {
@@ -475,20 +499,22 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     }
     const convertMDY2YMD = (date) => {
         if(date) {
+            //alert(111)
             let datearray = date.split('-');
-            let month = datearray[0];
-            let day = datearray[1];
-            let year = datearray[2];
+            let year = datearray[0];
+            let month = datearray[1];
+            let day = datearray[2];
+            
             let newdate = `${year}-${month}-${day}`;
+           // alert(newdate, 'newdate')
             return newdate;
           }
           else {
             return '';
           }
-     
+
     }
-    
-const convertYMD2DMYarray = (datearray) => {  //date is string,  return string
+/*DO NEXT   const convertYMD2DMYarray = (datearray) => {  //date is string,  return string 
     //convert to dd-mm-yyyy
     if(
       datearray.length > 0
@@ -506,7 +532,28 @@ const convertYMD2DMYarray = (datearray) => {  //date is string,  return string
     else {
       return '';
     }
-  }
+  }  */
+
+    
+/* const convertYMD2DMYarray = (datearray) => {  //date is string,  return string
+    //convert to dd-mm-yyyy
+    if(
+      datearray.length > 0
+    ) {
+      let count = datearray.length;
+      let newdatearray = [];
+
+      for(let i = 0; i < count; i++) {
+        let date = datearray[i];
+        let converted = convertYMD2DMY(date);
+        newdatearray.push(converted);
+      }
+      return newdatearray;
+    }
+    else {
+      return '';
+    }
+  } */
 
 const convertDMY2YMDarray = (datearray) => {  //date is string,  return string
   //convert to dd-mm-yyyy
@@ -570,14 +617,16 @@ const convertFormatArray = (datearray) => {
     let formatis = formata;
 
     if(formata === 'DDMMYYYY') {
-      return convertDMY2YMD(date)
+      return convertYMD2DMY(date)
+      //return convertDMY2YMD(date)
     }
     else if(formata === 'YYYYMMDD') {
       return(date)
 
     }
     else if (formata === 'MMDDYYYY') {
-      return convertMDY2YMD(date)
+      
+      return convertYMD2MDY(date)
     }
   }
 
