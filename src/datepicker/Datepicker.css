@@ -3,7 +3,6 @@
 .datepickerinput {
     display: block;
     width: 100%;
-    
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -18,18 +17,21 @@
 }
 
 .datepickerinput:active {
-    border: 1px solid red !important;
-    outline: none;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+
 }
 .datepickerinput:focus {
-    border: 1px solid blue !important;
-    outline: none;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+    outline: 0;
+
 }
 
 .mydaypickerwrapper {
     height: 200px;
     width: 300px;
-    border: 0px solid black;
+    border: 1px solid black;
 }
 
 .mydatepickergrid {
@@ -47,13 +49,6 @@
     color: red;
 }
 
-.dialogmodal {
-    position: fixed;  /* Position the dialog in the viewport */
-    top: 50%;        /* Position it 50% from the top */
-    left: 50%;       /* Position it 50% from the left */
-    transform: translate(-50%, -50%); /* Shift it back by half of its own width and height to center it */
-    /* Add other styles as needed */
-}
 
 .dayofweek {
     font-weight: 500;
@@ -62,17 +57,19 @@
 }
 
 
-.dialogtagpopup {
+
+.dialog {
     border: 0px solid gray ;
     padding: 0;
-    max-width: 300px;
+    width: 300px;
     position: absolute;
-    background-color: white;
-    z-index: 1000;
-   
-
+    
 }
 
+.datepickerwrapper {
+    position: relative;
+    width: 300px;
+}
 
 
 .todaycss {
@@ -102,21 +99,19 @@ display: inline-block;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    padding: 0px 3px;
+    padding: 0px 5px;
 }
 .chevronsdp {
-    width: 20px;
-    height: 20px;
-    
+    width: 30px;
+    height: 30px;
+    font-size:24px;
     cursor: pointer;
 }
 .chevrondpleft{
     text-align: left;
-    margin-top: 3px;
 }
 .chevrondpright {
     text-align: right;
-    margin-top: 3px;
 }
 
 .monthnamedp {
@@ -138,16 +133,12 @@ display: inline-block;
    cursor: pointer; 
 }
 
-.datepickerwrapper {
-    display: grid;
-    
-    justify-items: center
+.datepinput {
+    padding-right: 30px;
 }
-
 .datepickerformgroupdiv {
     position: relative;
     display: inline-block;
-    width: 200px;
 }
 
 
@@ -198,5 +189,4 @@ display: inline-block;
 
 .bi-calendar4-week::before {
     background-color: white;
-    color: #8b959f;
 }

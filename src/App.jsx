@@ -35,7 +35,7 @@ function App() {
     <>{/*  ref={dayPickerRef}  */}
   <Datepicker onDateChange={handleDateChange} 
      dateprop={multiple == 'yes' ? selecteddatesMulti : selecteddate}
-     multiple={multiple} format="DDMMYYYY"
+     multiple={multiple} format="MMDDYYYY"
      displaya=""
        />
      </>

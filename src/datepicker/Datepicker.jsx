@@ -2,13 +2,7 @@ import React from 'react';
 import { useEffect, useState, useRef } from 'react';
 
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, getWeeksInMonth, makearrayofdatesfromWeek, 
-  convertYMD2DMY, convertDMY2YMD, convertMDY2YMD,
-  convertDMY2YMDarray, convertMDY2YMDarray,
-  convertFormat
-
-
-} from './daypickerjs';
+import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, getWeeksInMonth, makearrayofdatesfromWeek} from './daypickerjs';
 
 
 //; ----------------------------------------------------------------------
@@ -18,7 +12,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
       const[selectedateArray, setSelecteddateArray] = useState([]);
         const dayPickerRef = useRef();
 
-        const {dateprop, onDateChange, closedialogCallback, multiple, format, displaya} = props;
+        const {dateprop, onDateChange, closedialogCallback, multiple, format} = props;
        
         const [isOpen, setIsOpen] = useState(false);
         const[datepropDatepicker, setDatepropDatepicker] = useState('');
@@ -32,7 +26,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
             console.log(e.target.value);
         // setSelecteddate(e.target.value);
         }
-    const[displayprop, setDisplayprop] = useState(displaya);
+       
     const[selecteddate2, setSelecteddate2] = useState('');
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     const[datepropstate, setDatepropState] = useState(dateprop);
@@ -63,7 +57,6 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
   
     const[actuallytoday, setActuallytoday] = useState('');
    
-   
     //; =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     //. ON TODAYS DATE CHANGE -> 
     //; ===========================================================
@@ -74,10 +67,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
      
     }, [])
 
-   useEffect(() => {
-    console.log('displayprop changed', displayprop)
-      
-   }, [displayprop])
+   
     
     useEffect(() => {
         let monthfromdate1;
@@ -129,7 +119,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         
         }
         else if(format === 'MMDDYYYY') {
-          alert('here')
+         // alert('here')
            unformatdate = convertMDY2YMD(selecteddate2);
            console.log(unformatdate, 'unformatdate2')
         }   
@@ -217,7 +207,11 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     }, [monthfordisplay, yearfordisplay])
    
     //; ===========================================================
-  
+    useEffect(() => {
+        
+        console.log('selecteddate2 changed', selecteddate2)
+
+    }, [selecteddate2])
     //; ===========================================================
     //. CHEVRONS CHANGE MONTH
     const changemonth = (currentmonthnum, previousnext, yearfordisplay22) => {
@@ -283,6 +277,12 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
     //if prop multiiple..
     if(multipleprop === 'yes') {
      
+      //if it exists remove it 
+     /*  if(selectedateArray.find(item => item == newdate)) {
+        let newarray = selectedateArray.filter(item => item !== newdate);
+        setSelecteddateArray(newarray);
+
+      } */
       if(selectedateArray.find(item => item == newdate)) {
                         //remove it
         console.log('exists')
@@ -290,7 +290,11 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         setSelecteddateArray(newarray);
     }
       else {
-    
+      //  let convertedArrayformat = convertFormatArray(selectedateArray);
+      //  console.log(convertedArrayformat, 'convertedArrayformat')
+       //   s
+  //    setSelecteddateArray([...convertedArrayformat, newdate]);
+      
         setSelecteddateArray([...selectedateArray, newdate]);
       }
     }
@@ -300,7 +304,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         let dateparam = new Date(newdate);
         console.log(dateparam, 'dateparam')
         //set date TO FORMAT WE WANT
-        let converteddatenow = convertFormat(format,newdate);
+        let converteddatenow = convertFormat(newdate);
           console.log(converteddatenow, 'converteddatenow1111111')
   // setSelecteddate2(newdate);
        setSelecteddate2(converteddatenow);
@@ -323,7 +327,65 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
       
     }
     //; ===========================================================
-    //; CHANGE MONTH AND YEAR IN DIALOG
+    //; OUTSIDE CLICK DETECTION - CLOSE DIALOG
+      useEffect(() => {
+        
+      const handleClickOutside = (event) => {
+          console.log(event.target, 'event.target')
+          console.log(event.target.id, 'event.target.id')
+          let targetid = event.target.id;
+          //first see if i
+          if (dateinputref.current && !dateinputref.current.contains(event.target)) {
+            //setIsOpen(false);
+            console.log('clickd outside datepicker input field')
+            if (dialogref.current && !dialogref.current.contains(event.target)) {
+              console.log('clicked outside dialogaaaa')
+              //setIsOpen(false);
+              if(isOpen === true) {
+                setIsOpen(false);
+              console.log('isopen')
+              }
+              else {
+                console.log('isnotopen')
+              }
+              console.log('clicked outside')
+              if(targetid === 'calendaricon') {
+                console.log('clicked on calendar icon')
+                setIsOpen(true);  
+              }
+              else {
+              setIsOpen(false);
+              }
+            
+              
+            }
+            else {
+              console.log('clicked inside')
+            } 
+          
+          }
+      
+          
+          else if (dateinputref.current && dateinputref.current.contains(event.target)) {
+            console.log('clicked inside datepicker input field') 
+          }
+      
+        }
+          
+  window.addEventListener('click', handleClickOutside);
+    
+        // Clean up the event listener
+        return () => {
+          window.removeEventListener('click', handleClickOutside);
+        };
+        //console.log('daypickerref useEffect called')
+        
+      /*    document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };  */
+      }, [dayPickerRef]); 
+
       const  changesetshowmonth = () => {
         if(showmonth === false) {
           setShowmonth(true);
@@ -358,6 +420,7 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
 
       //WHEN CLICK ON YEAR - shows years div
       const showyearsfunction = () => {
+        
         if(showyears === false) {
           setShowYears(true);
           setShowmonth(false);
@@ -382,73 +445,247 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
         setYearfordisplay(selectedyear);
         setShowYears(false);
       }
-        
-      //; OUTSIDE CLICK DETECTION - CLOSE DIALOG
-      useEffect(() => { 
-        const handleClickOutside = (event) => {
-            console.log(event.target, 'event.target')
-            console.log(event.target.id, 'event.target.id')
-            let targetid = event.target.id;
-            //first see if i
-            if (dateinputref.current && !dateinputref.current.contains(event.target)) {
-              //setIsOpen(false);
-              console.log('clickd outside datepicker input field')
-              if (dialogref.current && !dialogref.current.contains(event.target)) {
-                console.log('clicked outside dialogaaaa')
-                //setIsOpen(false);
-                if(displayprop === 'modal') {
-             
-                  if(dialogtag && dialogtag.open === true){
-                    dialogtag.close();
-                  }
-                }
-                else {
-                  if(isOpen === true) {
-                    setIsOpen(false);
-                  console.log('isopen')
-                  }
-                  else {
-                    console.log('isnotopen')
-                  } 
-                }
-              
-              
-                 
-                
-              }
-              else {
-                console.log('clicked inside')
-              } 
-            
-            }
-        
-            
-            else if (dateinputref.current && dateinputref.current.contains(event.target)) {
-              console.log('clicked inside datepicker input field') 
-            }
-        
-          }
-        window.addEventListener('click', handleClickOutside);
-          // Clean up the event listener
-          return () => {
-            window.removeEventListener('click', handleClickOutside);
-          };
-          //console.log('daypickerref useEffect called')
-      }, [dayPickerRef]); 
+    /* const convertYMD2DMY = (date) => { 
+      //convert to dd-mm-yyyy
+      if(date) {
+        let datearray = date.split('-');
+      let year = datearray[0];
+      let month = datearray[1];
+      let day = datearray[2];
+      let newdate = `${day}-${month}-${year}`;
+      return newdate;
+      }
+      else {
+        return '';
+      }
+      
+    }  */
+    //s
+    const convertYMD2DMY = (date) => {
+      if(date) {
+        let datearray = date.split('-');
+        let year = datearray[0];
+        let month = datearray[1];
+        let day = datearray[2];
+        let newdate = `${day}-${month}-${year}`;
+        return newdate;
+      }
 
-    //; ===========================================================
-      const dialogtag = document.getElementById('dialogtag');
+    }
+
+    const convertYMD2MDY = (date) => { 
+      if(date) {
+        let datearray = date.split('-');
+        let year = datearray[0];
+        let month = datearray[1];
+        let day = datearray[2];
+        let newdate = `${month}-${day}-${year}`;
+        return newdate;
+      }
+    }
+
+    const convertDMY2YMD = (date) => {
+      //convert to yyyy-mm-dd
+      if(date) {
+        let datearray = date.split('-');
+        let day = datearray[0];
+        let month = datearray[1];
+        let year = datearray[2];
+        let newdate = `${year}-${month}-${day}`;
+        return newdate;
+      }
+      else {
+        return '';
+      }
+   
+    }
+    const convertMDY2YMD = (date) => {
+        if(date) {
+            //alert(111)
+            let datearray = date.split('-');
+            let month = datearray[0];
+            let day = datearray[1];
+            let year = datearray[2];
+            
+            
+            
+            let newdate = `${year}-${month}-${day}`;
+           // alert(newdate, 'newdate')
+            return newdate;
+          }
+          else {
+            return '';
+          }
+
+    }
+/*DO NEXT   const convertYMD2DMYarray = (datearray) => {  //date is string,  return string 
+    //convert to dd-mm-yyyy
+    if(
+      datearray.length > 0
+    ) {
+      let count = datearray.length;
+      let newdatearray = [];
+
+      for(let i = 0; i < count; i++) {
+        let date = datearray[i];
+        let converted = convertYMD2DMY(date);
+        newdatearray.push(converted);
+      }
+      return newdatearray;
+    }
+    else {
+      return '';
+    }
+  }  */
+
     
+/* const convertYMD2DMYarray = (datearray) => {  //date is string,  return string
+    //convert to dd-mm-yyyy
+    if(
+      datearray.length > 0
+    ) {
+      let count = datearray.length;
+      let newdatearray = [];
+
+      for(let i = 0; i < count; i++) {
+        let date = datearray[i];
+        let converted = convertYMD2DMY(date);
+        newdatearray.push(converted);
+      }
+      return newdatearray;
+    }
+    else {
+      return '';
+    }
+  } */
+
+const convertDMY2YMDarray = (datearray) => {  //date is string,  return string
+  //convert to dd-mm-yyyy
+  if(
+    datearray.length > 0
+  ) {
+    let count = datearray.length;
+    let newdatearray = [];
+
+    for(let i = 0; i < count; i++) {
+      let date = datearray[i];
+      let converted = convertDMY2YMD(date);
+      newdatearray.push(converted);
+    }
+    return newdatearray;
+  }
+  else {
+    return '';
+  }
+}
+
+const convertMDY2YMDarray = (datearray) => {  //date is string,  return string
+
+  //convert to dd-mm-yyyy
+  if( 
+    datearray.length > 0
+  ) {
+    let count = datearray.length;
+    let newdatearray = [];
+
+    for(let i = 0; i < count; i++) {
+      let date = datearray[i];
+      let converted = convertMDY2YMD(date);
+      newdatearray.push(converted);
+    }
+    return newdatearray;
+  }
+  else {
+    return '';
+  }
+}
+
+const convertFormatArray = (datearray) => {
+  let formatis = formata;
+  if(formata === 'DDMMYYYY') {
+    return convertDMY2YMDarray(datearray)
+  }
+  else if(formata === 'YYYYMMDD') {
+    return(datearray)
+
+  }
+  else if (formata === 'MMDDYYYY') {
+    return convertMDY2YMDarray(datearray)
+  }
+}
+  //MAYBE DETECT DATE 
+  //ENFORCE DATE VALIDATION 
+  //WHEN CHANGE DATE - DONT DO ANYTHING , UNTIL DATE IS VALID 
+
+  const convertFormat = (date) => {
+    let formatis = formata;
+
+    if(formata === 'DDMMYYYY') {
+      return convertYMD2DMY(date)
+      //return convertDMY2YMD(date)
+    }
+    else if(formata === 'YYYYMMDD') {
+      return(date)
+
+    }
+    else if (formata === 'MMDDYYYY') {
+      
+      return convertYMD2MDY(date)
+    }
+  }
+
+  const validatedate = (date) => { 
+    
+    let validORnot;
+  //  let datePattern = /^(((0)[0-9])|((1)[0-2]))(-)([0-2][0-9]|(3)[0-1])(-)\d{4}$/;
+    let datePattern =  /^\d{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[0-1])$/;
+    validORnot = datePattern.test(date);
+    return validORnot;
+  
+  }
+  const validatedateArray = (datearray) => {
+    //split array on comma,
+    let checkifvalidonitsown = validatedate(datearray);
+    if(checkifvalidonitsown) {
+      return true;
+    }
+    else {  
+      //split see IF DATES ARE VALID INSIDE 
+      let split = datearray.split(',');
+      let countsplit = split.length;
+      let validcount = 0;
+      if(countsplit > 0) {
+        for(let i = 0; i < countsplit; i++) {
+          let date = split[i];
+          let dateisvalid = validatedate(date);
+          if(dateisvalid) {
+            validcount++;
+          }
+        }
+        if(validcount === countsplit) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+     
+    }
+
+  }
+
+      //her eto decide whether chevrons change month or year
+      //have two chevrons, one for month, one for year
       
     //| -----------------------------------------------------------
     return (
             <>
-               Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus officiis soluta eos libero, deserunt dolor! Porro esse in voluptatum obcaecati consectetur. Exercitationem eaque sequi inventore hic perspiciatis quas, tempore, ipsum, consequuntur sint nobis quis? Officia minima, voluptatem nam accusamus numquam sit blanditiis dolorum, quasi assumenda, corrupti inventore? Ad laborum id accusamus est quisquam cum, tenetur perspiciatis illo adipisci maiores, dolores dolorum sit similique assumenda tempora distinctio. Laboriosam eveniet iusto atque optio sit quidem eligendi esse vitae veniam, impedit culpa quae, error, nisi saepe! Possimus laudantium quos deserunt cumque sapiente voluptas libero a. Voluptates aut in corporis tempora blanditiis, ipsa quaerat?
+         
              <p className="read-the-docs">
-            Bootstrap React Multiple Datepicker
+            Click on the Vite and React logos to learn more
             </p>
             {/*  value={datepropDatepicker}  */}
-            <div className="datepickerwrapper">
+            <div className="datepickerwrapper" >
             <div className="datepickerformgroupdiv"  onClick={() => setIsOpen(true)}>
               <input
               //placehodler maybe convert today's date 
@@ -461,8 +698,8 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                 value={
                  selectedateArray && selectedateArray.length > 0 ? selectedateArray : selecteddate2 
                 /* convertYMD2DMY(selecteddate2) convertYMD2DMYarray(selectedateArray)   */
-                }   
-                aria-label="Datepicker"   onClick={() => onclickinput() } 
+                } 
+                aria-label="Datepicker"   onClick={() => setIsOpen(true)} 
                 /* onChange={{testFunction} */
                 onChange={e => {
                  let proceed = false;
@@ -488,7 +725,8 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                   // Otherwise, update selecteddate2
                   //convert date to yyymmdd from ddmmyyyy 
                   // let converteddate = convertDMY2YMD(e.target.value);
-               
+                   let validdateis = validatedate(e.target.value)
+                   console.log(validdateis, 'validdateis')
                //   if(validdateis) {
                //     alert('valid')
                     proceed = true;
@@ -507,23 +745,11 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
 
         {/* onClick={() => clickopen} */}
 
-                       
-             
-          {/*   {isOpen &&  ( */}
-{/*                <div className="dialog" open ref={dialogref}  >  */}
-            
-      {/* )} */}
-       </div> 
-       </div>
-        <p></p>
-        <p></p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, pariatur mollitia? Officiis optio quisquam voluptatem unde accusantium aperiam nostrum quas fuga, rerum qui itaque perspiciatis error excepturi saepe rem illum maiores veniam quos consequatur expedita commodi? Sit, laboriosam? Laborum corporis nobis dicta nesciunt numquam facilis laudantium tenetur atque molestias eius ipsa, sit nisi voluptatem voluptate architecto modi veritatis earum. Pariatur, quo exercitationem numquam enim, magnam provident mollitia veritatis odit iste nemo dolore? Magnam impedit sit velit necessitatibus excepturi error, quia veritatis, ipsum incidunt sunt, vero molestiae iste perferendis ipsam! Nostrum modi non quidem adipisci dolores facere, a eos laborum debitis!l
-        <dialog id="dialogtag" 
-        /* className="dialogtag"  */
-        className={displayprop === 'modal' ? 'dialogtag' : 'dialogtagpopup'}
-        open ref={dialogref}  >
-            { /*  ref={ref} */}
-            <button onClick={() => dialogtag.close()} autoFocus>Close</button> 
+             </div> 
+               
+            {isOpen &&  (
+            <div className="dialog"  ref={dialogref}  >   {/*  ref={ref} */}
+           {/*  <button onClick={() => setIsOpen(false)} autoFocus>Close</button> */}
             
             {/*  dateprop={datepropDatepicker} */}
             <div className="mydaypickerwrapper"   >
@@ -592,9 +818,9 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                     //  console.log(convertedArrayformat, 'convertedArrayformat')
 
                     //  setMultipledatearray([...multipledatearray, convertFormat(day.datetxt)]);
-                      setSelecteddateArray([...selectedateArray, convertFormat(format, day.datetxt)]);
-                      changeDateCallback([...selectedateArray, convertFormat(format,day.datetxt)]);
-                      changedateLocal(convertFormat(format, day.datetxt)); 
+                      setSelecteddateArray([...selectedateArray, convertFormat(day.datetxt)]);
+                      changeDateCallback([...selectedateArray, convertFormat(day.datetxt)]);
+                      changedateLocal(convertFormat(day.datetxt)); 
 
                       }
                     }
@@ -606,10 +832,10 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
                 } }
                     
                     
-                className={`dpdatebox ${day.monthname !== monthname ? 'grey' : ''} ${selecteddate2 === convertFormat(format, day.datetxt) ? 'activedatebadge' : ''} ${day.datetxt ===  actuallytoday ? 'todaycss' : ''} ${selectedateArray &&
-                  selectedateArray.find(item => item == convertFormat(format, day.datetxt)) ? 'activedatebadge' : ''} `}
+                className={`dpdatebox ${day.monthname !== monthname ? 'grey' : ''} ${selecteddate2 === convertFormat(day.datetxt) ? 'activedatebadge' : ''} ${day.datetxt ===  actuallytoday ? 'todaycss' : ''} ${selectedateArray &&
+                  selectedateArray.find(item => item == convertFormat(day.datetxt)) ? 'activedatebadge' : ''} `}
                 
-                data-date={convertFormat(format, day.datetxt)} data-monthname={day.monthname} data-monthnumber={day.monthnumber} /* data-dayname={day.dayname} data-dayofweek={day.dayofweek} data-dayofweeknumber={day.dayofweeknumber} data-year={day.year} data-day={day.day} data-month={day.month} */
+                data-date={convertFormat(day.datetxt)} data-monthname={day.monthname} data-monthnumber={day.monthnumber} /* data-dayname={day.dayname} data-dayofweek={day.dayofweek} data-dayofweeknumber={day.dayofweeknumber} data-year={day.year} data-day={day.day} data-month={day.month} */
               /*   tabIndex={0} */
                /*   onKeyDown={(event) => handleKeyDown(event, index)}
   */
@@ -653,17 +879,18 @@ import {getmonthnumber, getmonthname, daysinmonth2, getdayofweek, getdayname, ge
             </div>
                )   }
             </div>
-            </dialog>
-            </>
+            </div>
+      )}           
+             </div> 
+           
         
 
+            </>
+        
     )
-})
-                
-
                 
     
-  
+    })
 
     Datepicker.displayName = 'Mydaypicker2';
     export default Datepicker;
