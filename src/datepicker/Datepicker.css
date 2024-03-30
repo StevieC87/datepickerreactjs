@@ -76,8 +76,16 @@
     border: 1px solid lightblue;
 }
 
+.filterbadge {
+    color: gray !important;
+    border: 1px solid gray !important;
+}
 
-
+.weektopbanner {
+    display: flex;
+    justify-content: space-between;
+    
+}
 
 .activedatebadge {
 color: #212529;
